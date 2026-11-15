@@ -109,17 +109,17 @@ Vagrant.configure("2") do |config|
   # ============================================
   # 4. testclient1
   # ============================================
-  config.vm.define "office1Server" do |srv|
-    srv.vm.box = "almalinux/9"
-    srv.vm.hostname = "office1Server"
-    srv.vm.provider "virtualbox" do |v|
+  config.vm.define "testclient1" do |cli1|
+    cli1.vm.box = "almalinux/9"
+    cli1.vm.hostname = "testclient1"
+    cli1.vm.provider "virtualbox" do |v|
       v.memory = 2048
       v.cpus = 2
     end
-    srv.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
-    srv.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
+    cli1.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    cli1.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
 
-    srv.vm.provision "shell",
+    cli1.vm.provision "shell",
     run: "always",
     inline: <<-SHELL
       nmcli con modify 'eth0' ipv4.never-default yes
@@ -134,17 +134,17 @@ Vagrant.configure("2") do |config|
   # ============================================
   # 5. testclient2
   # ============================================
-  config.vm.define "office1Server" do |srv|
-    srv.vm.box = "ubuntu/jammy64"
-    srv.vm.hostname = "office1Server"
-    srv.vm.provider "virtualbox" do |v|
+  config.vm.define "testclient2" do |cli2|
+    cli2.vm.box = "ubuntu/jammy64"
+    cli2.vm.hostname = "testclient2"
+    cli2.vm.provider "virtualbox" do |v|
       v.memory = 2048
       v.cpus = 2
     end
-    srv.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
-    srv.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
+    cli2.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    cli2.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
 
-    srv.vm.provision "shell",
+    cli2.vm.provision "shell",
     run: "always",
     inline: <<-SHELL
       nmcli con modify 'eth0' ipv4.never-default yes
@@ -159,17 +159,17 @@ Vagrant.configure("2") do |config|
   # ============================================
   # 6. testserver1
   # ============================================
-  config.vm.define "office1Server" do |srv|
-    srv.vm.box = "almalinux/9"
-    srv.vm.hostname = "office1Server"
-    srv.vm.provider "virtualbox" do |v|
+  config.vm.define "testserver1" do |srv1|
+    srv1.vm.box = "almalinux/9"
+    srv1.vm.hostname = "testserver1"
+    srv1.vm.provider "virtualbox" do |v|
       v.memory = 2048
       v.cpus = 2
     end
-    srv.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
-    srv.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
+    srv1.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    srv1.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
 
-    srv.vm.provision "shell",
+    srv1.vm.provision "shell",
     run: "always",
     inline: <<-SHELL
       nmcli con modify 'eth0' ipv4.never-default yes
@@ -184,17 +184,17 @@ Vagrant.configure("2") do |config|
   # ============================================
   # 7. testserver2
   # ============================================
-  config.vm.define "office1Server" do |srv|
-    srv.vm.box = "ubuntu/jammy64"
-    srv.vm.hostname = "office1Server"
-    srv.vm.provider "virtualbox" do |v|
+  config.vm.define "testserver2" do |srv2|
+    srv2.vm.box = "ubuntu/jammy64"
+    srv2.vm.hostname = "testserver2"
+    srv2.vm.provider "virtualbox" do |v|
       v.memory = 2048
       v.cpus = 2
     end
-    srv.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
-    srv.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
+    srv2.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    srv2.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
 
-    srv.vm.provision "shell",
+    srv2.vm.provision "shell",
     run: "always",
     inline: <<-SHELL
       nmcli con modify 'eth0' ipv4.never-default yes
