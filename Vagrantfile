@@ -7,127 +7,202 @@ ENV['VAGRANT_SERVER_URL'] = 'https://vagrant.elab.pro'
 Vagrant.configure("2") do |config|
 
   # ============================================
-  # 1. ns01 (AlmaLinux 9)
+  # 1. inetRouter (AlmaLinux 9)
   # ============================================
-  config.vm.define "ns01" do |ns01|
-    ns01.vm.box = "almalinux/9"
-    ns01.vm.hostname = "ns01"
-    ns01.vm.provider "virtualbox" do |v|
+  config.vm.define "inetRouter" do |inet|
+    inet.vm.box = "almalinux/9"
+    inet.vm.hostname = "inetRouter"
+    inet.vm.provider "virtualbox" do |v|
       v.memory = 2048
       v.cpus = 2
     end
 
-    ns01.vm.network "private_network", ip: "192.168.50.10", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "dns"
+    inet.vm.network "private_network", ip: "192.168.255.1", adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"
+    inet.vm.network "private_network", ip: "192.168.51.10", adapter: 3, netmask: "255.255.255.0"
 
-    ns01.vm.provision "shell",
+    inet.vm.provision "shell",
       run: "always",
       inline: <<-SHELL
+        sudo dnf install -y iptables-services
+        sudo systemctl enable iptables
+        sudo sysctl -w net.ipv4.ip_forward=1
+        grep -q "net.ipv4.ip_forward" /etc/sysctl.conf || echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf
+        sudo iptables -t nat -A POSTROUTING ! -d 192.168.0.0/16 -o eth0 -j MASQUERADE
+        sudo iptables -A FORWARD -j ACCEPT
+        sudo iptables-save | sudo tee /etc/sysconfig/iptables
+        sudo nmcli connection modify "System eth1" +ipv4.routes "192.168.0.0/16 192.168.255.2"
+        sudo nmcli con reload
+        sudo nmcli con up 'System eth1'
+      SHELL
+  end
 
-        # установка пакетов
-        sudo dnf install -y bind bind-utils
+  # ============================================
+  # 2. centralRouter
+  # ============================================
+  config.vm.define "centralRouter" do |central|
+    central.vm.box = "almalinux/9"
+    central.vm.hostname = "centralRouter"
+    central.vm.provider "virtualbox" do |v|
+      v.memory = 2048
+      v.cpus = 2
+    end
+    central.vm.network "private_network", ip: "192.168.255.2", adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"
+    central.vm.network "private_network", ip: "192.168.52.10", adapter: 3, netmask: "255.255.255.0"
+    central.vm.network "private_network", ip: "192.168.0.1", adapter: 4, netmask: "255.255.255.240", virtualbox__intnet: "directors-net"
+    central.vm.network "private_network", ip: "192.168.255.9", adapter: 5, netmask: "255.255.255.252", virtualbox__intnet: "office1Router-net"
+    central.vm.network "private_network", ip: "192.168.255.5", adapter: 6, netmask: "255.255.255.252", virtualbox__intnet: "office2Router-net"
+    central.vm.network "private_network", ip: "192.168.0.33", adapter: 7, netmask: "255.255.255.240", virtualbox__intnet: "hardware2-net"
+    # на схеме указано две сети Office hardware и не указана сеть wifi. Вторую сеть Office hardware заменил на сеть wifi.
+    central.vm.network "private_network", ip: "192.168.0.65", adapter: 8, netmask: "255.255.255.192", virtualbox__intnet: "wifi-net"
 
-        # TSIG-ключ
-        sudo cp /vagrant/provisioning/named.zonetransfer.keys /etc/named.zonetransfer.keys
-        sudo chown root:named /etc/named.zonetransfer.keys
-        sudo chmod 640 /etc/named.zonetransfer.keys
-
-        # Копирование конфигов и ключей
-        sudo cp /vagrant/provisioning/named.dns.lab /etc/named/named.dns.lab
-        sudo cp /vagrant/provisioning/named.dns.lab.client /etc/named/named.dns.lab.client
-        sudo cp /vagrant/provisioning/named.newdns.lab /etc/named/named.newdns.lab
-        sudo cp /vagrant/provisioning/empty.newdns.lab /etc/named/empty.newdns.lab
-        sudo cp /vagrant/provisioning/master-named.conf /etc/named.conf
-
-        # проверки конфига и зоны
-        sudo named-checkconf
-        sudo named-checkzone dns.lab /etc/named/named.dns.lab
-        sudo named-checkzone dns.lab /etc/named/named.dns.lab.client
-        sudo named-checkzone newdns.lab /etc/named/named.newdns.lab
-
-        # запуск сервиса        
-        sudo systemctl enable --now named
-
+    central.vm.provision "shell",
+    run: "always",
+    inline: <<-SHELL
+      nmcli con modify 'eth0' ipv4.never-default yes
+      nmcli con reload
+      nmcli con up 'eth0'
+      sudo sysctl -w net.ipv4.ip_forward=1
+      grep -q "net.ipv4.ip_forward" /etc/sysctl.conf || echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf
+      sudo nmcli connection modify "System eth4" +ipv4.routes "192.168.2.0/24 192.168.255.10"
+      sudo nmcli connection modify "System eth5" +ipv4.routes "192.168.1.0/24 192.168.255.6"
+      sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.255.1"
+      sudo nmcli con reload
+      sudo nmcli con up 'System eth1'
+      sudo nmcli con up 'System eth4'
+      sudo nmcli con up 'System eth5'
     SHELL
   end
 
   # ============================================
-  # 2. ns02 (AlmaLinux 9)
+  # 3. office1Router
   # ============================================
-  config.vm.define "ns02" do |ns02|
-    ns02.vm.box = "almalinux/9"
-    ns02.vm.hostname = "ns02"
-    ns02.vm.provider "virtualbox" do |v|
+  config.vm.define "office1Router" do |office1|
+    office1.vm.box = "almalinux/9"
+    office1.vm.hostname = "office1Router"
+    office1.vm.provider "virtualbox" do |v|
       v.memory = 2048
       v.cpus = 2
     end
+    office1.vm.network "private_network", ip: "192.168.255.10", adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "office1Router-net"
+    office1.vm.network "private_network", ip: "192.168.54.10", adapter: 3, netmask: "255.255.255.0"
+    office1.vm.network "private_network", ip: "192.168.2.1", adapter: 4, netmask: "255.255.255.192", virtualbox__intnet: "dev4-net"
+    # начале методички указана маска /26 для Test servers, а на схеме уже указана маска /28. Принял решение использовать маску /28.
+    office1.vm.network "private_network", ip: "192.168.2.65", adapter: 5, netmask: "255.255.255.240", virtualbox__intnet: "test4-net"
+    office1.vm.network "private_network", ip: "192.168.2.129", adapter: 6, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    # на схеме указан интерфейс 192.168.2.192/26, а это адрес сети. Исправил на 192.168.2.193/26, как первый доступный айпи в этой сети.
+    office1.vm.network "private_network", ip: "192.168.2.193", adapter: 7, netmask: "255.255.255.192", virtualbox__intnet: "hardware4-net"
 
-    ns02.vm.network "private_network", ip: "192.168.50.11", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "dns"
-
-    ns02.vm.provision "shell",
-      run: "always",
-      inline: <<-SHELL
-
-        # установка пакетов
-        sudo dnf install -y bind bind-utils
-
-        # TSIG-ключ
-        sudo cp /vagrant/provisioning/named.zonetransfer.keys /etc/named.zonetransfer.keys
-        sudo chown root:named /etc/named.zonetransfer.keys
-        sudo chmod 640 /etc/named.zonetransfer.keys
-
-        # копирование конфига slave
-        sudo cp /vagrant/provisioning/slave-named.conf /etc/named.conf
-
-        # создаём каталог для файлов зон, полученных с мастера
-        sudo mkdir -p /var/named/slaves
-        sudo chown named:named /var/named/slaves
-
-        # проверки конфига и зоны
-        sudo named-checkconf
-
-        # запуск сервиса        
-        sudo systemctl enable --now named
-
+    office1.vm.provision "shell",
+    run: "always",
+    inline: <<-SHELL
+      nmcli con modify 'eth0' ipv4.never-default yes
+      nmcli con reload
+      nmcli con up 'eth0'
+      sudo sysctl -w net.ipv4.ip_forward=1
+      grep -q "net.ipv4.ip_forward" /etc/sysctl.conf || echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf
+      sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.255.9"
+      sudo nmcli con reload
+      sudo nmcli con up 'System eth1'
     SHELL
   end
 
   # ============================================
-  # 3. client1 (AlmaLinux 9)
+  # 4. testclient1
   # ============================================
-  config.vm.define "client1" do |client1|
-    client1.vm.box = "almalinux/9"
-    client1.vm.hostname = "client1"
-    client1.vm.provider "virtualbox" do |v|
+  config.vm.define "office1Server" do |srv|
+    srv.vm.box = "almalinux/9"
+    srv.vm.hostname = "office1Server"
+    srv.vm.provider "virtualbox" do |v|
       v.memory = 2048
       v.cpus = 2
     end
+    srv.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    srv.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
 
-    client1.vm.network "private_network", ip: "192.168.50.15", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "dns"
-
-    client1.vm.provision "shell",
-      run: "always",
-      inline: <<-SHELL
-        sudo dnf install -y bind-utils
+    srv.vm.provision "shell",
+    run: "always",
+    inline: <<-SHELL
+      nmcli con modify 'eth0' ipv4.never-default yes
+      nmcli con reload
+      nmcli con up 'eth0'
+      sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
+      sudo nmcli con reload
+      sudo nmcli con up 'System eth1'
     SHELL
   end
 
   # ============================================
-  # 4. client2 (AlmaLinux 9)
+  # 5. testclient2
   # ============================================
-  config.vm.define "client2" do |client2|
-    client2.vm.box = "almalinux/9"
-    client2.vm.hostname = "client2"
-    client2.vm.provider "virtualbox" do |v|
+  config.vm.define "office1Server" do |srv|
+    srv.vm.box = "ubuntu/jammy64"
+    srv.vm.hostname = "office1Server"
+    srv.vm.provider "virtualbox" do |v|
       v.memory = 2048
       v.cpus = 2
     end
+    srv.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    srv.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
 
-    client2.vm.network "private_network", ip: "192.168.50.16", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "dns"
+    srv.vm.provision "shell",
+    run: "always",
+    inline: <<-SHELL
+      nmcli con modify 'eth0' ipv4.never-default yes
+      nmcli con reload
+      nmcli con up 'eth0'
+      sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
+      sudo nmcli con reload
+      sudo nmcli con up 'System eth1'
+    SHELL
+  end
 
-    client2.vm.provision "shell",
-      run: "always",
-      inline: <<-SHELL
-        sudo dnf install -y bind-utils
+  # ============================================
+  # 6. testserver1
+  # ============================================
+  config.vm.define "office1Server" do |srv|
+    srv.vm.box = "almalinux/9"
+    srv.vm.hostname = "office1Server"
+    srv.vm.provider "virtualbox" do |v|
+      v.memory = 2048
+      v.cpus = 2
+    end
+    srv.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    srv.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
+
+    srv.vm.provision "shell",
+    run: "always",
+    inline: <<-SHELL
+      nmcli con modify 'eth0' ipv4.never-default yes
+      nmcli con reload
+      nmcli con up 'eth0'
+      sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
+      sudo nmcli con reload
+      sudo nmcli con up 'System eth1'
+    SHELL
+  end
+
+  # ============================================
+  # 7. testserver2
+  # ============================================
+  config.vm.define "office1Server" do |srv|
+    srv.vm.box = "ubuntu/jammy64"
+    srv.vm.hostname = "office1Server"
+    srv.vm.provider "virtualbox" do |v|
+      v.memory = 2048
+      v.cpus = 2
+    end
+    srv.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    srv.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
+
+    srv.vm.provision "shell",
+    run: "always",
+    inline: <<-SHELL
+      nmcli con modify 'eth0' ipv4.never-default yes
+      nmcli con reload
+      nmcli con up 'eth0'
+      sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
+      sudo nmcli con reload
+      sudo nmcli con up 'System eth1'
     SHELL
   end
 
