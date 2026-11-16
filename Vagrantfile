@@ -48,12 +48,12 @@ Vagrant.configure("2") do |config|
     end
     central.vm.network "private_network", ip: "192.168.255.2", adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"
     central.vm.network "private_network", ip: "192.168.52.10", adapter: 3, netmask: "255.255.255.0"
-    central.vm.network "private_network", ip: "192.168.0.1", adapter: 4, netmask: "255.255.255.240", virtualbox__intnet: "directors-net"
+    # central.vm.network "private_network", ip: "192.168.0.1", adapter: 4, netmask: "255.255.255.240", virtualbox__intnet: "directors-net"
     central.vm.network "private_network", ip: "192.168.255.9", adapter: 5, netmask: "255.255.255.252", virtualbox__intnet: "office1Router-net"
-    central.vm.network "private_network", ip: "192.168.255.5", adapter: 6, netmask: "255.255.255.252", virtualbox__intnet: "office2Router-net"
-    central.vm.network "private_network", ip: "192.168.0.33", adapter: 7, netmask: "255.255.255.240", virtualbox__intnet: "hardware2-net"
+    # central.vm.network "private_network", ip: "192.168.255.5", adapter: 6, netmask: "255.255.255.252", virtualbox__intnet: "office2Router-net"
+    # central.vm.network "private_network", ip: "192.168.0.33", adapter: 7, netmask: "255.255.255.240", virtualbox__intnet: "hardware2-net"
     # на схеме указано две сети Office hardware и не указана сеть wifi. Вторую сеть Office hardware заменил на сеть wifi.
-    central.vm.network "private_network", ip: "192.168.0.65", adapter: 8, netmask: "255.255.255.192", virtualbox__intnet: "wifi-net"
+    # central.vm.network "private_network", ip: "192.168.0.65", adapter: 8, netmask: "255.255.255.192", virtualbox__intnet: "wifi-net"
 
     central.vm.provision "shell",
     run: "always",
@@ -63,6 +63,10 @@ Vagrant.configure("2") do |config|
       nmcli con up 'eth0'
       sudo sysctl -w net.ipv4.ip_forward=1
       grep -q "net.ipv4.ip_forward" /etc/sysctl.conf || echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf
+
+      ################################
+      # кое-что от сюда нужно убрать #
+      ################################
       sudo nmcli connection modify "System eth4" +ipv4.routes "192.168.2.0/24 192.168.255.10"
       sudo nmcli connection modify "System eth5" +ipv4.routes "192.168.1.0/24 192.168.255.6"
       sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.255.1"
@@ -85,12 +89,15 @@ Vagrant.configure("2") do |config|
     end
     office1.vm.network "private_network", ip: "192.168.255.10", adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "office1Router-net"
     office1.vm.network "private_network", ip: "192.168.54.10", adapter: 3, netmask: "255.255.255.0"
-    office1.vm.network "private_network", ip: "192.168.2.1", adapter: 4, netmask: "255.255.255.192", virtualbox__intnet: "dev4-net"
+    # office1.vm.network "private_network", ip: "192.168.2.1", adapter: 4, netmask: "255.255.255.192", virtualbox__intnet: "dev4-net"
     # начале методички указана маска /26 для Test servers, а на схеме уже указана маска /28. Принял решение использовать маску /28.
-    office1.vm.network "private_network", ip: "192.168.2.65", adapter: 5, netmask: "255.255.255.240", virtualbox__intnet: "test4-net"
-    office1.vm.network "private_network", ip: "192.168.2.129", adapter: 6, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    # office1.vm.network "private_network", ip: "192.168.2.65", adapter: 5, netmask: "255.255.255.240", virtualbox__intnet: "test4-net"
+    office1.vm.network "private_network", ip: "192.168.56.1", adapter: 5, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
+    office1.vm.network "private_network", ip: "192.168.56.3", adapter: 6, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
+    office1.vm.network "private_network", ip: "192.168.56.4", adapter: 7, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
+    office1.vm.network "private_network", ip: "192.168.56.5", adapter: 8, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
     # на схеме указан интерфейс 192.168.2.192/26, а это адрес сети. Исправил на 192.168.2.193/26, как первый доступный айпи в этой сети.
-    office1.vm.network "private_network", ip: "192.168.2.193", adapter: 7, netmask: "255.255.255.192", virtualbox__intnet: "hardware4-net"
+    # office1.vm.network "private_network", ip: "192.168.2.193", adapter: 7, netmask: "255.255.255.192", virtualbox__intnet: "hardware4-net"
 
     office1.vm.provision "shell",
     run: "always",
@@ -116,7 +123,7 @@ Vagrant.configure("2") do |config|
       v.memory = 2048
       v.cpus = 2
     end
-    cli1.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    cli1.vm.network "private_network", ip: "192.168.56.2", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
     cli1.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
 
     cli1.vm.provision "shell",
@@ -141,7 +148,7 @@ Vagrant.configure("2") do |config|
       v.memory = 2048
       v.cpus = 2
     end
-    cli2.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    cli2.vm.network "private_network", ip: "192.168.56.4", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
     cli2.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
 
     cli2.vm.provision "shell",
@@ -166,7 +173,7 @@ Vagrant.configure("2") do |config|
       v.memory = 2048
       v.cpus = 2
     end
-    srv1.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    srv1.vm.network "private_network", ip: "192.168.56.6", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
     srv1.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
 
     srv1.vm.provision "shell",
@@ -191,7 +198,7 @@ Vagrant.configure("2") do |config|
       v.memory = 2048
       v.cpus = 2
     end
-    srv2.vm.network "private_network", ip: "192.168.2.130", adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "managers-net"
+    srv2.vm.network "private_network", ip: "192.168.56.8", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
     srv2.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
 
     srv2.vm.provision "shell",
