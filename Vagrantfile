@@ -94,8 +94,8 @@ Vagrant.configure("2") do |config|
     # office1.vm.network "private_network", ip: "192.168.2.65", adapter: 5, netmask: "255.255.255.240", virtualbox__intnet: "test4-net"
     office1.vm.network "private_network", ip: "192.168.56.1", adapter: 5, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
     office1.vm.network "private_network", ip: "192.168.56.3", adapter: 6, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
-    office1.vm.network "private_network", ip: "192.168.56.4", adapter: 7, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
-    office1.vm.network "private_network", ip: "192.168.56.5", adapter: 8, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
+    office1.vm.network "private_network", ip: "192.168.56.5", adapter: 7, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
+    office1.vm.network "private_network", ip: "192.168.56.7", adapter: 8, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
     # на схеме указан интерфейс 192.168.2.192/26, а это адрес сети. Исправил на 192.168.2.193/26, как первый доступный айпи в этой сети.
     # office1.vm.network "private_network", ip: "192.168.2.193", adapter: 7, netmask: "255.255.255.192", virtualbox__intnet: "hardware4-net"
 
