@@ -19,6 +19,7 @@ Vagrant.configure("2") do |config|
 
     inet.vm.network "private_network", ip: "192.168.255.1", adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"
     inet.vm.network "private_network", ip: "192.168.51.10", adapter: 3, netmask: "255.255.255.0"
+    inet.vm.network "private_network", ip: "192.168.255.5", adapter: 4, netmask: "255.255.255.252", virtualbox__intnet: "router-net2"
 
     inet.vm.provision "shell",
       run: "always",
@@ -31,8 +32,11 @@ Vagrant.configure("2") do |config|
         sudo iptables -A FORWARD -j ACCEPT
         sudo iptables-save | sudo tee /etc/sysconfig/iptables
         sudo nmcli connection modify "System eth1" +ipv4.routes "192.168.0.0/16 192.168.255.2"
+
+
         sudo nmcli con reload
         sudo nmcli con up 'System eth1'
+        sudo nmcli con up 'System eth3'
       SHELL
   end
 
@@ -49,6 +53,7 @@ Vagrant.configure("2") do |config|
     central.vm.network "private_network", ip: "192.168.255.2", adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"
     central.vm.network "private_network", ip: "192.168.52.10", adapter: 3, netmask: "255.255.255.0"
     central.vm.network "private_network", ip: "192.168.255.9", adapter: 4, netmask: "255.255.255.252", virtualbox__intnet: "office1Router-net"
+    central.vm.network "private_network", ip: "192.168.255.6", adapter: 5, netmask: "255.255.255.252", virtualbox__intnet: "router-net2"
 
     central.vm.provision "shell",
     run: "always",
@@ -66,6 +71,7 @@ Vagrant.configure("2") do |config|
       sudo nmcli con up 'System eth1'
       sudo nmcli con up 'System eth2'
       sudo nmcli con up 'System eth3'
+      sudo nmcli con up 'System eth4'
     SHELL
   end
 
@@ -116,7 +122,7 @@ Vagrant.configure("2") do |config|
       nmcli con modify 'eth0' ipv4.never-default yes
       nmcli con reload
       nmcli con up 'eth0'
-      sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
+      # sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
       sudo nmcli con reload
       sudo nmcli con up 'System eth1'
     SHELL
@@ -141,7 +147,7 @@ Vagrant.configure("2") do |config|
       nmcli con modify 'eth0' ipv4.never-default yes
       nmcli con reload
       nmcli con up 'eth0'
-      sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
+      # sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
       sudo nmcli con reload
       sudo nmcli con up 'System eth1'
     SHELL
@@ -166,7 +172,7 @@ Vagrant.configure("2") do |config|
       nmcli con modify 'eth0' ipv4.never-default yes
       nmcli con reload
       nmcli con up 'eth0'
-      sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
+      # sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
       sudo nmcli con reload
       sudo nmcli con up 'System eth1'
     SHELL
@@ -191,7 +197,7 @@ Vagrant.configure("2") do |config|
       nmcli con modify 'eth0' ipv4.never-default yes
       nmcli con reload
       nmcli con up 'eth0'
-      sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
+      # sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
       sudo nmcli con reload
       sudo nmcli con up 'System eth1'
     SHELL
