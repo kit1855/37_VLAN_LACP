@@ -59,12 +59,9 @@ Vagrant.configure("2") do |config|
       sudo sysctl -w net.ipv4.ip_forward=1
       grep -q "net.ipv4.ip_forward" /etc/sysctl.conf || echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf
 
-      ################################
-      # кое-что от сюда нужно убрать #
-      ################################
-      sudo nmcli connection modify "System eth2" +ipv4.routes "192.168.2.0/24 192.168.255.10"
-      sudo nmcli connection modify "System eth3" +ipv4.routes "192.168.1.0/24 192.168.255.6"
       sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.255.1"
+      sudo nmcli connection modify "System eth3" +ipv4.routes "192.168.2.0/24 192.168.255.10"
+
       sudo nmcli con reload
       sudo nmcli con up 'System eth1'
       sudo nmcli con up 'System eth2'
