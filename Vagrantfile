@@ -48,7 +48,7 @@ Vagrant.configure("2") do |config|
     end
     central.vm.network "private_network", ip: "192.168.255.2", adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"
     central.vm.network "private_network", ip: "192.168.52.10", adapter: 3, netmask: "255.255.255.0"
-    central.vm.network "private_network", ip: "192.168.255.9", adapter: 5, netmask: "255.255.255.252", virtualbox__intnet: "office1Router-net"
+    central.vm.network "private_network", ip: "192.168.255.9", adapter: 4, netmask: "255.255.255.252", virtualbox__intnet: "office1Router-net"
 
     central.vm.provision "shell",
     run: "always",
@@ -62,13 +62,13 @@ Vagrant.configure("2") do |config|
       ################################
       # кое-что от сюда нужно убрать #
       ################################
-      sudo nmcli connection modify "System eth4" +ipv4.routes "192.168.2.0/24 192.168.255.10"
-      sudo nmcli connection modify "System eth5" +ipv4.routes "192.168.1.0/24 192.168.255.6"
+      sudo nmcli connection modify "System eth2" +ipv4.routes "192.168.2.0/24 192.168.255.10"
+      sudo nmcli connection modify "System eth3" +ipv4.routes "192.168.1.0/24 192.168.255.6"
       sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.255.1"
       sudo nmcli con reload
       sudo nmcli con up 'System eth1'
-      sudo nmcli con up 'System eth4'
-      sudo nmcli con up 'System eth5'
+      sudo nmcli con up 'System eth2'
+      sudo nmcli con up 'System eth3'
     SHELL
   end
 
