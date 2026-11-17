@@ -1,0 +1,7 @@
+network:
+  version: 2
+  vlans:
+    eth1.2:
+      id: 2
+      link: eth1
+      addresses: [10.10.10.254/24]
