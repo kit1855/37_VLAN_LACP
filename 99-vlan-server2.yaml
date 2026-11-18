@@ -3,5 +3,5 @@ network:
   vlans:
     eth1.2:
       id: 2
-      link: eth1
+      link: enp0s8
       addresses: [10.10.10.1/24]
