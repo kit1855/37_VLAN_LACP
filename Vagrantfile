@@ -11,6 +11,7 @@ Vagrant.configure("2") do |config|
   # ============================================
   config.vm.define "inetRouter" do |inet|
     inet.vm.box = "almalinux/9"
+    inet.vm.box_version = "1.0.0"
     inet.vm.hostname = "inetRouter"
     inet.vm.provider "virtualbox" do |v|
       v.memory = 2048
@@ -44,6 +45,7 @@ Vagrant.configure("2") do |config|
   # ============================================
   config.vm.define "centralRouter" do |central|
     central.vm.box = "almalinux/9"
+    central.vm.box_version = "1.0.0"
     central.vm.hostname = "centralRouter"
     central.vm.provider "virtualbox" do |v|
       v.memory = 2048
@@ -79,6 +81,7 @@ Vagrant.configure("2") do |config|
   # ============================================
   config.vm.define "office1Router" do |office1|
     office1.vm.box = "almalinux/9"
+    office1.vm.box_version = "1.0.0"
     office1.vm.hostname = "office1Router"
     office1.vm.provider "virtualbox" do |v|
       v.memory = 2048
@@ -108,6 +111,7 @@ Vagrant.configure("2") do |config|
   # ============================================
   config.vm.define "testclient1" do |cli1|
     cli1.vm.box = "almalinux/9"
+    cli1.vm.box_version = "1.0.0"
     cli1.vm.hostname = "testclient1"
     cli1.vm.provider "virtualbox" do |v|
       v.memory = 2048
@@ -132,6 +136,7 @@ Vagrant.configure("2") do |config|
   # ============================================
   config.vm.define "testclient2" do |cli2|
     cli2.vm.box = "ubuntu/jammy64"
+    cli2.vm.box_version = "1.0.0"
     cli2.vm.hostname = "testclient2"
     cli2.vm.provider "virtualbox" do |v|
       v.memory = 2048
@@ -154,6 +159,7 @@ Vagrant.configure("2") do |config|
   # ============================================
   config.vm.define "testserver1" do |srv1|
     srv1.vm.box = "almalinux/9"
+    srv1.vm.box_version = "1.0.0"
     srv1.vm.hostname = "testserver1"
     srv1.vm.provider "virtualbox" do |v|
       v.memory = 2048
@@ -178,6 +184,7 @@ Vagrant.configure("2") do |config|
   # ============================================
   config.vm.define "testserver2" do |srv2|
     srv2.vm.box = "ubuntu/jammy64"
+    srv2.vm.box_version = "1.0.0"
     srv2.vm.hostname = "testserver2"
     srv2.vm.provider "virtualbox" do |v|
       v.memory = 2048
