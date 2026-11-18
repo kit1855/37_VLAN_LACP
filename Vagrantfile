@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
     end
 
     inet.vm.network "private_network", ip: "192.168.255.1", adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"
-    inet.vm.network "private_network", ip: "192.168.51.10", adapter: 3, netmask: "255.255.255.0"
+    inet.vm.network "private_network", ip: "192.168.61.10", adapter: 3, netmask: "255.255.255.0"
     inet.vm.network "private_network", ip: "192.168.255.5", adapter: 4, netmask: "255.255.255.252", virtualbox__intnet: "router-net2"
 
     inet.vm.provision "shell",
@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
       v.cpus = 2
     end
     central.vm.network "private_network", ip: "192.168.255.2", adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"
-    central.vm.network "private_network", ip: "192.168.52.10", adapter: 3, netmask: "255.255.255.0"
+    central.vm.network "private_network", ip: "192.168.62.10", adapter: 3, netmask: "255.255.255.0"
     central.vm.network "private_network", ip: "192.168.255.9", adapter: 4, netmask: "255.255.255.252", virtualbox__intnet: "office1Router-net"
     central.vm.network "private_network", ip: "192.168.255.6", adapter: 5, netmask: "255.255.255.252", virtualbox__intnet: "router-net2"
 
@@ -86,7 +86,7 @@ Vagrant.configure("2") do |config|
       v.cpus = 2
     end
     office1.vm.network "private_network", ip: "192.168.255.10", adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "office1Router-net"
-    office1.vm.network "private_network", ip: "192.168.54.10", adapter: 3, netmask: "255.255.255.0"
+    office1.vm.network "private_network", ip: "192.168.63.10", adapter: 3, netmask: "255.255.255.0"
     office1.vm.network "private_network", ip: "192.168.56.1", adapter: 5, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
 
     office1.vm.provision "shell",
@@ -115,7 +115,7 @@ Vagrant.configure("2") do |config|
       v.cpus = 2
     end
     cli1.vm.network "private_network", ip: "192.168.56.2", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
-    cli1.vm.network "private_network", ip: "192.168.55.10", adapter: 3, netmask: "255.255.255.0"
+    cli1.vm.network "private_network", ip: "192.168.64.10", adapter: 3, netmask: "255.255.255.0"
 
     cli1.vm.provision "shell",
     run: "always",
@@ -140,7 +140,7 @@ Vagrant.configure("2") do |config|
       v.cpus = 2
     end
     cli2.vm.network "private_network", ip: "192.168.56.3", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
-    cli2.vm.network "private_network", ip: "192.168.56.10", adapter: 3, netmask: "255.255.255.0"
+    cli2.vm.network "private_network", ip: "192.168.65.10", adapter: 3, netmask: "255.255.255.0"
 
 #    cli2.vm.provision "shell",
 #    run: "always",
@@ -156,7 +156,7 @@ Vagrant.configure("2") do |config|
 cli2.vm.provision "file", source: "99-vlan-client2.yaml", destination: "/tmp/99-vlan.yaml"
 
 cli2.vm.provision "shell", inline: <<-SHELL
-  sudo mv /tmp/99-vlan.yaml /etc/netplan/99-vlan.yaml
+  sudo cp /tmp/99-vlan.yaml /etc/netplan/99-vlan.yaml
   sudo netplan apply
 SHELL
 
@@ -173,7 +173,7 @@ SHELL
       v.cpus = 2
     end
     srv1.vm.network "private_network", ip: "192.168.56.4", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
-    srv1.vm.network "private_network", ip: "192.168.57.10", adapter: 3, netmask: "255.255.255.0"
+    srv1.vm.network "private_network", ip: "192.168.66.10", adapter: 3, netmask: "255.255.255.0"
 
     srv1.vm.provision "shell",
     run: "always",
@@ -198,12 +198,12 @@ SHELL
       v.cpus = 2
     end
     srv2.vm.network "private_network", ip: "192.168.56.5", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
-    srv2.vm.network "private_network", ip: "192.168.58.10", adapter: 3, netmask: "255.255.255.0"
+    srv2.vm.network "private_network", ip: "192.168.67.10", adapter: 3, netmask: "255.255.255.0"
 
-cli2.vm.provision "file", source: "99-vlan-server2.yaml", destination: "/tmp/99-vlan.yaml"
+srv2.vm.provision "file", source: "99-vlan-server2.yaml", destination: "/tmp/99-vlan.yaml"
 
-cli2.vm.provision "shell", inline: <<-SHELL
-  sudo mv /tmp/99-vlan.yaml /etc/netplan/99-vlan.yaml
+srv2.vm.provision "shell", inline: <<-SHELL
+  sudo cp /tmp/99-vlan.yaml /etc/netplan/99-vlan.yaml
   sudo netplan apply
 SHELL
 
