@@ -33,7 +33,6 @@ Vagrant.configure("2") do |config|
         sudo iptables-save | sudo tee /etc/sysconfig/iptables
         sudo nmcli connection modify "System eth1" +ipv4.routes "192.168.0.0/16 192.168.255.2"
 
-
         sudo nmcli con reload
         sudo nmcli con up 'System eth1'
         sudo nmcli con up 'System eth3'
@@ -123,7 +122,6 @@ Vagrant.configure("2") do |config|
       nmcli con modify 'eth0' ipv4.never-default yes
       nmcli con reload
       nmcli con up 'eth0'
-      # sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
       sudo nmcli con reload
       sudo nmcli con up 'System eth1'
     SHELL
@@ -142,23 +140,12 @@ Vagrant.configure("2") do |config|
     cli2.vm.network "private_network", ip: "192.168.56.3", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
     cli2.vm.network "private_network", ip: "192.168.65.10", adapter: 3, netmask: "255.255.255.0"
 
-#    cli2.vm.provision "shell",
-#    run: "always",
-#    inline: <<-SHELL
-#      nmcli con modify 'eth0' ipv4.never-default yes
-#      nmcli con reload
-#      nmcli con up 'eth0'
-#      # sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
-#      sudo nmcli con reload
-#      sudo nmcli con up 'System eth1'
-#    SHELL
+    cli2.vm.provision "file", source: "99-vlan-client2.yaml", destination: "/tmp/99-vlan.yaml"
 
-cli2.vm.provision "file", source: "99-vlan-client2.yaml", destination: "/tmp/99-vlan.yaml"
-
-cli2.vm.provision "shell", inline: <<-SHELL
-  sudo cp /tmp/99-vlan.yaml /etc/netplan/99-vlan.yaml
-  sudo netplan apply
-SHELL
+    cli2.vm.provision "shell", inline: <<-SHELL
+      sudo cp /tmp/99-vlan.yaml /etc/netplan/99-vlan.yaml
+      sudo netplan apply
+    SHELL
 
   end
 
@@ -181,7 +168,6 @@ SHELL
       nmcli con modify 'eth0' ipv4.never-default yes
       nmcli con reload
       nmcli con up 'eth0'
-      # sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
       sudo nmcli con reload
       sudo nmcli con up 'System eth1'
     SHELL
@@ -200,23 +186,11 @@ SHELL
     srv2.vm.network "private_network", ip: "192.168.56.5", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
     srv2.vm.network "private_network", ip: "192.168.67.10", adapter: 3, netmask: "255.255.255.0"
 
-srv2.vm.provision "file", source: "99-vlan-server2.yaml", destination: "/tmp/99-vlan.yaml"
+    srv2.vm.provision "file", source: "99-vlan-server2.yaml", destination: "/tmp/99-vlan.yaml"
 
-srv2.vm.provision "shell", inline: <<-SHELL
-  sudo cp /tmp/99-vlan.yaml /etc/netplan/99-vlan.yaml
-  sudo netplan apply
-SHELL
-
-#    srv2.vm.provision "shell",
-#    run: "always",
-#    inline: <<-SHELL
-#     nmcli con modify 'eth0' ipv4.never-default yes
-#      nmcli con reload
-#      nmcli con up 'eth0'
-#      # sudo nmcli connection modify "System eth1" +ipv4.routes "0.0.0.0/0 192.168.2.129"
-#      sudo nmcli con reload
-#      sudo nmcli con up 'System eth1'
-#    SHELL
+    srv2.vm.provision "shell", inline: <<-SHELL
+      sudo cp /tmp/99-vlan.yaml /etc/netplan/99-vlan.yaml
+      sudo netplan apply
+    SHELL
   end
-
 end
