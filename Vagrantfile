@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
     inet.vm.provision "shell",
       run: "always",
       inline: <<-SHELL
-        sudo dnf install -y iptables-services
+        sudo dnf install -y iptables-services vim traceroute tcpdump net-tools
         sudo systemctl enable iptables
         sudo sysctl -w net.ipv4.ip_forward=1
         grep -q "net.ipv4.ip_forward" /etc/sysctl.conf || echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf
@@ -59,6 +59,7 @@ Vagrant.configure("2") do |config|
     central.vm.provision "shell",
     run: "always",
     inline: <<-SHELL
+      sudo dnf install -y iptables-services vim traceroute tcpdump net-tools
       nmcli con modify 'eth0' ipv4.never-default yes
       nmcli con reload
       nmcli con up 'eth0'
@@ -123,6 +124,7 @@ Vagrant.configure("2") do |config|
     cli1.vm.provision "shell",
     run: "always",
     inline: <<-SHELL
+      sudo dnf install -y iptables-services vim traceroute tcpdump net-tools
       nmcli con modify 'eth0' ipv4.never-default yes
       nmcli con reload
       nmcli con up 'eth0'
@@ -145,12 +147,9 @@ Vagrant.configure("2") do |config|
     cli2.vm.network "private_network", ip: "192.168.56.3", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
     cli2.vm.network "private_network", ip: "192.168.65.10", adapter: 3, netmask: "255.255.255.0"
 
-    #cli2.vm.provision "file", source: "99-vlan-client2.yaml", destination: "/tmp/99-vlan.yaml"
-
-#    cli2.vm.provision "shell", inline: <<-SHELL
-#     sudo cp /tmp/99-vlan.yaml /etc/netplan/99-vlan.yaml
-#      sudo netplan apply
-#    SHELL
+    cli2.vm.provision "shell", inline: <<-SHELL
+      sudo apt update && sudo apt install -y vim traceroute tcpdump net-tools
+    SHELL
 
   end
 
@@ -171,6 +170,7 @@ Vagrant.configure("2") do |config|
     srv1.vm.provision "shell",
     run: "always",
     inline: <<-SHELL
+      sudo dnf install -y iptables-services vim traceroute tcpdump net-tools
       nmcli con modify 'eth0' ipv4.never-default yes
       nmcli con reload
       nmcli con up 'eth0'
@@ -193,11 +193,8 @@ Vagrant.configure("2") do |config|
     srv2.vm.network "private_network", ip: "192.168.56.5", adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "testLAN"
     srv2.vm.network "private_network", ip: "192.168.67.10", adapter: 3, netmask: "255.255.255.0"
 
-#    srv2.vm.provision "file", source: "99-vlan-server2.yaml", destination: "/tmp/99-vlan.yaml"
-
-#    srv2.vm.provision "shell", inline: <<-SHELL
-#      sudo cp /tmp/99-vlan.yaml /etc/netplan/99-vlan.yaml
-#      sudo netplan apply
-#    SHELL
+    srv2.vm.provision "shell", inline: <<-SHELL
+      sudo apt update && sudo apt install -y vim traceroute tcpdump net-tools
+    SHELL
   end
 end
