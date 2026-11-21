@@ -1288,4 +1288,71 @@ PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2>
 # и тогда они не смогу пинговаться, с вязанность будет только внутри ВЛАНов между
 # тестклиентами и тестсерверами
 
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2> vagrant ssh testclient1
+Last login: Sat Nov 21 16:32:06 2026 from 10.0.2.2
+[vagrant@testclient1 ~]$ date; ping -c 3 10.10.10.1
+Sat Nov 21 05:48:55 PM UTC 2026
+PING 10.10.10.1 (10.10.10.1) 56(84) bytes of data.
+64 bytes from 10.10.10.1: icmp_seq=1 ttl=64 time=2.09 ms
+64 bytes from 10.10.10.1: icmp_seq=2 ttl=64 time=0.577 ms
+64 bytes from 10.10.10.1: icmp_seq=3 ttl=64 time=0.742 ms
+
+--- 10.10.10.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2007ms
+rtt min/avg/max/mdev = 0.577/1.137/2.093/0.679 ms
+[vagrant@testclient1 ~]$
+
+[vagrant@testserver1 ~]$ date; sudo tcpdump -i eth1.1 -n -e icmp
+Sat Nov 21 05:48:46 PM UTC 2026
+dropped privs to tcpdump
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on eth1.1, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+17:48:55.500706 08:00:27:6d:1a:14 > 08:00:27:c3:4b:ee, ethertype IPv4 (0x0800), length 98: 10.10.10.254 > 10.10.10.1: ICMP echo request, id 8, seq 1, length 64
+17:48:55.500741 08:00:27:c3:4b:ee > 08:00:27:6d:1a:14, ethertype IPv4 (0x0800), length 98: 10.10.10.1 > 10.10.10.254: ICMP echo reply, id 8, seq 1, length 64
+17:48:56.504626 08:00:27:6d:1a:14 > 08:00:27:c3:4b:ee, ethertype IPv4 (0x0800), length 98: 10.10.10.254 > 10.10.10.1: ICMP echo request, id 8, seq 2, length 64
+17:48:56.504660 08:00:27:c3:4b:ee > 08:00:27:6d:1a:14, ethertype IPv4 (0x0800), length 98: 10.10.10.1 > 10.10.10.254: ICMP echo reply, id 8, seq 2, length 64
+17:48:57.505598 08:00:27:6d:1a:14 > 08:00:27:c3:4b:ee, ethertype IPv4 (0x0800), length 98: 10.10.10.254 > 10.10.10.1: ICMP echo request, id 8, seq 3, length 64
+17:48:57.505632 08:00:27:c3:4b:ee > 08:00:27:6d:1a:14, ethertype IPv4 (0x0800), length 98: 10.10.10.1 > 10.10.10.254: ICMP echo reply, id 8, seq 3, length 64
+
+vagrant@testserver2:~$ date; sudo tcpdump -i eth1.2 -n -e icmp
+Sat Nov 21 17:48:51 UTC 2026
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on eth1.2, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+^C
+
+
+
+
+
+
+vagrant@testclient2:~$ date; ping -c 3 10.10.10.1
+Sat Nov 21 17:50:08 UTC 2026
+PING 10.10.10.1 (10.10.10.1) 56(84) bytes of data.
+64 bytes from 10.10.10.1: icmp_seq=1 ttl=64 time=1.44 ms
+64 bytes from 10.10.10.1: icmp_seq=2 ttl=64 time=0.667 ms
+64 bytes from 10.10.10.1: icmp_seq=3 ttl=64 time=0.760 ms
+
+--- 10.10.10.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2028ms
+rtt min/avg/max/mdev = 0.667/0.955/1.440/0.344 ms
+vagrant@testclient2:~$
+
+[vagrant@testserver1 ~]$ date; sudo tcpdump -i eth1.1 -n -e icmp
+Sat Nov 21 05:50:03 PM UTC 2026
+dropped privs to tcpdump
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on eth1.1, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+^C
+
+vagrant@testserver2:~$ date; sudo tcpdump -i eth1.2 -n -e icmp
+Sat Nov 21 17:50:05 UTC 2026
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on eth1.2, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+17:50:08.616833 08:00:27:64:53:e4 > 08:00:27:4e:e0:eb, ethertype IPv4 (0x0800), length 98: 10.10.10.254 > 10.10.10.1: ICMP echo request, id 4, seq 1, length 64
+17:50:08.616850 08:00:27:4e:e0:eb > 08:00:27:64:53:e4, ethertype IPv4 (0x0800), length 98: 10.10.10.1 > 10.10.10.254: ICMP echo reply, id 4, seq 1, length 64
+17:50:09.620339 08:00:27:64:53:e4 > 08:00:27:4e:e0:eb, ethertype IPv4 (0x0800), length 98: 10.10.10.254 > 10.10.10.1: ICMP echo request, id 4, seq 2, length 64
+17:50:09.620361 08:00:27:4e:e0:eb > 08:00:27:64:53:e4, ethertype IPv4 (0x0800), length 98: 10.10.10.1 > 10.10.10.254: ICMP echo reply, id 4, seq 2, length 64
+17:50:10.644391 08:00:27:64:53:e4 > 08:00:27:4e:e0:eb, ethertype IPv4 (0x0800), length 98: 10.10.10.254 > 10.10.10.1: ICMP echo request, id 4, seq 3, length 64
+17:50:10.644413 08:00:27:4e:e0:eb > 08:00:27:64:53:e4, ethertype IPv4 (0x0800), length 98: 10.10.10.1 > 10.10.10.254: ICMP echo reply, id 4, seq 3, length 64
+^C
 
