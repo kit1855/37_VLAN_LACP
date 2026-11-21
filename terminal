@@ -4,7 +4,895 @@
 ##                         ##
 #############################
 
-
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2> vagrant up
+Bringing machine 'inetRouter' up with 'virtualbox' provider...
+Bringing machine 'centralRouter' up with 'virtualbox' provider...
+Bringing machine 'office1Router' up with 'virtualbox' provider...
+Bringing machine 'testclient1' up with 'virtualbox' provider...
+Bringing machine 'testclient2' up with 'virtualbox' provider...
+Bringing machine 'testserver1' up with 'virtualbox' provider...
+Bringing machine 'testserver2' up with 'virtualbox' provider...
+==> inetRouter: You assigned a static IP ending in ".1" or ":1" to this machine.
+==> inetRouter: This is very often used by the router and can cause the
+==> inetRouter: network to not work properly. If the network doesn't work
+==> inetRouter: properly, try changing this IP.
+==> inetRouter: Importing base box 'almalinux/9'...
+==> inetRouter: Matching MAC address for NAT networking...
+==> inetRouter: You assigned a static IP ending in ".1" or ":1" to this machine.
+==> inetRouter: This is very often used by the router and can cause the
+==> inetRouter: network to not work properly. If the network doesn't work
+==> inetRouter: properly, try changing this IP.
+==> inetRouter: Checking if box 'almalinux/9' version '1.0.0' is up to date...
+==> inetRouter: Setting the name of the VM: dz2_inetRouter_1795264227167_15668
+==> inetRouter: Clearing any previously set network interfaces...
+==> inetRouter: Preparing network interfaces based on configuration...
+    inetRouter: Adapter 1: nat
+    inetRouter: Adapter 2: intnet
+    inetRouter: Adapter 3: hostonly
+    inetRouter: Adapter 4: intnet
+==> inetRouter: Forwarding ports...
+    inetRouter: 22 (guest) => 2222 (host) (adapter 1)
+==> inetRouter: Running 'pre-boot' VM customizations...
+==> inetRouter: Booting VM...
+==> inetRouter: Waiting for machine to boot. This may take a few minutes...
+    inetRouter: SSH address: 127.0.0.1:2222
+    inetRouter: SSH username: vagrant
+    inetRouter: SSH auth method: private key
+    inetRouter:
+    inetRouter: Vagrant insecure key detected. Vagrant will automatically replace
+    inetRouter: this with a newly generated keypair for better security.
+    inetRouter:
+    inetRouter: Inserting generated public key within guest...
+==> inetRouter: Machine booted and ready!
+==> inetRouter: Checking for guest additions in VM...
+==> inetRouter: Setting hostname...
+==> inetRouter: Configuring and enabling network interfaces...
+==> inetRouter: Mounting shared folders...
+    inetRouter: D:/linux/Professional/37 Сетевые пакеты. VLAN'ы. LACP/dz2 => /vagrant
+==> inetRouter: Running provisioner: shell...
+    inetRouter: Running: inline script
+    inetRouter: AlmaLinux 9 - AppStream                         1.2 MB/s |  13 MB     00:10
+    inetRouter: AlmaLinux 9 - BaseOS                            1.2 MB/s | 6.6 MB     00:05
+    inetRouter: AlmaLinux 9 - Extras                             72 kB/s |  33 kB     00:00
+    inetRouter: Package tcpdump-14:4.99.0-9.el9.x86_64 is already installed.
+    inetRouter: Dependencies resolved.
+    inetRouter: ================================================================================
+    inetRouter:  Package                 Arch     Version                     Repository   Size
+    inetRouter: ================================================================================
+    inetRouter: Installing:
+    inetRouter:  iptables-nft-services   noarch   1.8.10-11.el9_5             appstream    18 k
+    inetRouter:  net-tools               x86_64   2.0-0.64.20160912git.el9    baseos      294 k
+    inetRouter:  traceroute              x86_64   3:2.1.1-1.el9               baseos       56 k
+    inetRouter:  vim-enhanced            x86_64   2:8.2.2637-44.el9_9         appstream   1.7 M
+    inetRouter: Upgrading:
+    inetRouter:  iptables-libs           x86_64   1.8.10-11.el9_5             baseos      397 k
+    inetRouter: Installing dependencies:
+    inetRouter:  gpm-libs                x86_64   1.20.7-29.el9               appstream    20 k
+    inetRouter:  iptables-nft            x86_64   1.8.10-11.el9_5             baseos      187 k
+    inetRouter:  libnftnl                x86_64   1.2.6-4.el9_4               baseos       87 k
+    inetRouter:  vim-common              x86_64   2:8.2.2637-44.el9_9         appstream   6.6 M
+    inetRouter:  vim-filesystem          noarch   2:8.2.2637-44.el9_9         baseos       13 k
+    inetRouter:
+    inetRouter: Transaction Summary
+    inetRouter: ================================================================================
+    inetRouter: Install  9 Packages
+    inetRouter: Upgrade  1 Package
+    inetRouter:
+    inetRouter: Total download size: 9.4 M
+    inetRouter: Downloading Packages:
+    inetRouter: (1/10): iptables-nft-services-1.8.10-11.el9_5.n 907 kB/s |  18 kB     00:00
+    inetRouter: (2/10): gpm-libs-1.20.7-29.el9.x86_64.rpm       813 kB/s |  20 kB     00:00
+    inetRouter: (3/10): iptables-nft-1.8.10-11.el9_5.x86_64.rpm 3.0 MB/s | 187 kB     00:00
+    inetRouter: (4/10): libnftnl-1.2.6-4.el9_4.x86_64.rpm       343 kB/s |  87 kB     00:00
+    inetRouter: (5/10): net-tools-2.0-0.64.20160912git.el9.x86_ 364 kB/s | 294 kB     00:00
+    inetRouter: (6/10): traceroute-2.1.1-1.el9.x86_64.rpm       112 kB/s |  56 kB     00:00
+    inetRouter: (7/10): vim-filesystem-8.2.2637-44.el9_9.noarch 812 kB/s |  13 kB     00:00
+    inetRouter: (8/10): iptables-libs-1.8.10-11.el9_5.x86_64.rp 697 kB/s | 397 kB     00:00
+    inetRouter: (9/10): vim-enhanced-8.2.2637-44.el9_9.x86_64.r 635 kB/s | 1.7 MB     00:02
+    inetRouter: (10/10): vim-common-8.2.2637-44.el9_9.x86_64.rp 903 kB/s | 6.6 MB     00:07
+    inetRouter: --------------------------------------------------------------------------------
+    inetRouter: Total                                           1.1 MB/s | 9.4 MB     00:08
+    inetRouter: Running transaction check
+    inetRouter: Transaction check succeeded.
+    inetRouter: Running transaction test
+    inetRouter: Transaction test succeeded.
+    inetRouter: Running transaction
+    inetRouter:   Preparing        :                                                        1/1
+    inetRouter:   Upgrading        : iptables-libs-1.8.10-11.el9_5.x86_64                  1/11
+    inetRouter:   Installing       : vim-filesystem-2:8.2.2637-44.el9_9.noarch             2/11
+    inetRouter:   Installing       : vim-common-2:8.2.2637-44.el9_9.x86_64                 3/11
+    inetRouter:   Installing       : libnftnl-1.2.6-4.el9_4.x86_64                         4/11
+    inetRouter:   Installing       : iptables-nft-1.8.10-11.el9_5.x86_64                   5/11
+    inetRouter:   Running scriptlet: iptables-nft-1.8.10-11.el9_5.x86_64                   5/11
+    inetRouter:   Installing       : gpm-libs-1.20.7-29.el9.x86_64                         6/11
+    inetRouter:   Installing       : vim-enhanced-2:8.2.2637-44.el9_9.x86_64               7/11
+    inetRouter:   Installing       : iptables-nft-services-1.8.10-11.el9_5.noarch          8/11
+    inetRouter:   Running scriptlet: iptables-nft-services-1.8.10-11.el9_5.noarch          8/11
+    inetRouter:   Installing       : traceroute-3:2.1.1-1.el9.x86_64                       9/11
+    inetRouter:   Installing       : net-tools-2.0-0.64.20160912git.el9.x86_64            10/11
+    inetRouter:   Running scriptlet: net-tools-2.0-0.64.20160912git.el9.x86_64            10/11
+    inetRouter:   Cleanup          : iptables-libs-1.8.10-4.el9_4.x86_64                  11/11
+    inetRouter:   Running scriptlet: iptables-libs-1.8.10-4.el9_4.x86_64                  11/11
+    inetRouter:   Verifying        : gpm-libs-1.20.7-29.el9.x86_64                         1/11
+    inetRouter:   Verifying        : iptables-nft-services-1.8.10-11.el9_5.noarch          2/11
+    inetRouter:   Verifying        : vim-common-2:8.2.2637-44.el9_9.x86_64                 3/11
+    inetRouter:   Verifying        : vim-enhanced-2:8.2.2637-44.el9_9.x86_64               4/11
+    inetRouter:   Verifying        : iptables-nft-1.8.10-11.el9_5.x86_64                   5/11
+    inetRouter:   Verifying        : libnftnl-1.2.6-4.el9_4.x86_64                         6/11
+    inetRouter:   Verifying        : net-tools-2.0-0.64.20160912git.el9.x86_64             7/11
+    inetRouter:   Verifying        : traceroute-3:2.1.1-1.el9.x86_64                       8/11
+    inetRouter:   Verifying        : vim-filesystem-2:8.2.2637-44.el9_9.noarch             9/11
+    inetRouter:   Verifying        : iptables-libs-1.8.10-11.el9_5.x86_64                 10/11
+    inetRouter:   Verifying        : iptables-libs-1.8.10-4.el9_4.x86_64                  11/11
+    inetRouter:
+    inetRouter: Upgraded:
+    inetRouter:   iptables-libs-1.8.10-11.el9_5.x86_64
+    inetRouter: Installed:
+    inetRouter:   gpm-libs-1.20.7-29.el9.x86_64
+    inetRouter:   iptables-nft-1.8.10-11.el9_5.x86_64
+    inetRouter:   iptables-nft-services-1.8.10-11.el9_5.noarch
+    inetRouter:   libnftnl-1.2.6-4.el9_4.x86_64
+    inetRouter:   net-tools-2.0-0.64.20160912git.el9.x86_64
+    inetRouter:   traceroute-3:2.1.1-1.el9.x86_64
+    inetRouter:   vim-common-2:8.2.2637-44.el9_9.x86_64
+    inetRouter:   vim-enhanced-2:8.2.2637-44.el9_9.x86_64
+    inetRouter:   vim-filesystem-2:8.2.2637-44.el9_9.noarch
+    inetRouter:
+    inetRouter: Complete!
+    inetRouter: Created symlink /etc/systemd/system/multi-user.target.wants/iptables.service → /usr/lib/systemd/system/iptables.service.
+    inetRouter: net.ipv4.ip_forward = 1
+    inetRouter: net.ipv4.ip_forward = 1
+    inetRouter: # Generated by iptables-save v1.8.10 (nf_tables) on Sat Nov 21 12:31:59 2026
+    inetRouter: *filter
+    inetRouter: :INPUT ACCEPT [0:0]
+    inetRouter: :FORWARD ACCEPT [0:0]
+    inetRouter: :OUTPUT ACCEPT [0:0]
+    inetRouter: -A FORWARD -j ACCEPT
+    inetRouter: COMMIT
+    inetRouter: # Completed on Sat Nov 21 12:31:59 2026
+    inetRouter: # Generated by iptables-save v1.8.10 (nf_tables) on Sat Nov 21 12:31:59 2026
+    inetRouter: *nat
+    inetRouter: :PREROUTING ACCEPT [0:0]
+    inetRouter: :INPUT ACCEPT [0:0]
+    inetRouter: :OUTPUT ACCEPT [0:0]
+    inetRouter: :POSTROUTING ACCEPT [0:0]
+    inetRouter: -A POSTROUTING ! -d 192.168.0.0/16 -o eth0 -j MASQUERADE
+    inetRouter: COMMIT
+    inetRouter: # Completed on Sat Nov 21 12:31:59 2026
+    inetRouter: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/6)
+    inetRouter: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/7)
+==> centralRouter: Importing base box 'almalinux/9'...
+==> centralRouter: Matching MAC address for NAT networking...
+==> centralRouter: Checking if box 'almalinux/9' version '1.0.0' is up to date...
+==> centralRouter: Setting the name of the VM: dz2_centralRouter_1795264327839_39671
+==> centralRouter: Fixed port collision for 22 => 2222. Now on port 2200.
+==> centralRouter: Clearing any previously set network interfaces...
+==> centralRouter: Preparing network interfaces based on configuration...
+    centralRouter: Adapter 1: nat
+    centralRouter: Adapter 2: intnet
+    centralRouter: Adapter 3: hostonly
+    centralRouter: Adapter 4: intnet
+    centralRouter: Adapter 5: intnet
+==> centralRouter: Forwarding ports...
+    centralRouter: 22 (guest) => 2200 (host) (adapter 1)
+==> centralRouter: Running 'pre-boot' VM customizations...
+==> centralRouter: Booting VM...
+==> centralRouter: Waiting for machine to boot. This may take a few minutes...
+    centralRouter: SSH address: 127.0.0.1:2200
+    centralRouter: SSH username: vagrant
+    centralRouter: SSH auth method: private key
+    centralRouter:
+    centralRouter: Vagrant insecure key detected. Vagrant will automatically replace
+    centralRouter: this with a newly generated keypair for better security.
+    centralRouter:
+    centralRouter: Inserting generated public key within guest...
+==> centralRouter: Machine booted and ready!
+==> centralRouter: Checking for guest additions in VM...
+==> centralRouter: Setting hostname...
+==> centralRouter: Configuring and enabling network interfaces...
+==> centralRouter: Mounting shared folders...
+    centralRouter: D:/linux/Professional/37 Сетевые пакеты. VLAN'ы. LACP/dz2 => /vagrant
+==> centralRouter: Running provisioner: shell...
+    centralRouter: Running: inline script
+    centralRouter: AlmaLinux 9 - AppStream                         1.1 MB/s |  13 MB     00:11
+    centralRouter: AlmaLinux 9 - BaseOS                            1.1 MB/s | 6.6 MB     00:05
+    centralRouter: AlmaLinux 9 - Extras                             73 kB/s |  33 kB     00:00
+    centralRouter: Package tcpdump-14:4.99.0-9.el9.x86_64 is already installed.
+    centralRouter: Dependencies resolved.
+    centralRouter: ================================================================================
+    centralRouter:  Package                 Arch     Version                     Repository   Size
+    centralRouter: ================================================================================
+    centralRouter: Installing:
+    centralRouter:  iptables-nft-services   noarch   1.8.10-11.el9_5             appstream    18 k
+    centralRouter:  net-tools               x86_64   2.0-0.64.20160912git.el9    baseos      294 k
+    centralRouter:  traceroute              x86_64   3:2.1.1-1.el9               baseos       56 k
+    centralRouter:  vim-enhanced            x86_64   2:8.2.2637-44.el9_9         appstream   1.7 M
+    centralRouter: Upgrading:
+    centralRouter:  iptables-libs           x86_64   1.8.10-11.el9_5             baseos      397 k
+    centralRouter: Installing dependencies:
+    centralRouter:  gpm-libs                x86_64   1.20.7-29.el9               appstream    20 k
+    centralRouter:  iptables-nft            x86_64   1.8.10-11.el9_5             baseos      187 k
+    centralRouter:  libnftnl                x86_64   1.2.6-4.el9_4               baseos       87 k
+    centralRouter:  vim-common              x86_64   2:8.2.2637-44.el9_9         appstream   6.6 M
+    centralRouter:  vim-filesystem          noarch   2:8.2.2637-44.el9_9         baseos       13 k
+    centralRouter:
+    centralRouter: Transaction Summary
+    centralRouter: ================================================================================
+    centralRouter: Install  9 Packages
+    centralRouter: Upgrade  1 Package
+    centralRouter:
+    centralRouter: Total download size: 9.4 M
+    centralRouter: Downloading Packages:
+    centralRouter: (1/10): gpm-libs-1.20.7-29.el9.x86_64.rpm       425 kB/s |  20 kB     00:00
+    centralRouter: (2/10): iptables-nft-services-1.8.10-11.el9_5.n 355 kB/s |  18 kB     00:00
+    centralRouter: (3/10): iptables-nft-1.8.10-11.el9_5.x86_64.rpm 212 kB/s | 187 kB     00:00
+    centralRouter: (4/10): libnftnl-1.2.6-4.el9_4.x86_64.rpm       896 kB/s |  87 kB     00:00
+    centralRouter: (5/10): net-tools-2.0-0.64.20160912git.el9.x86_ 525 kB/s | 294 kB     00:00
+    centralRouter: (6/10): traceroute-2.1.1-1.el9.x86_64.rpm       940 kB/s |  56 kB     00:00
+    centralRouter: (7/10): vim-filesystem-8.2.2637-44.el9_9.noarch 654 kB/s |  13 kB     00:00
+    centralRouter: (8/10): iptables-libs-1.8.10-11.el9_5.x86_64.rp 658 kB/s | 397 kB     00:00
+    centralRouter: (9/10): vim-enhanced-8.2.2637-44.el9_9.x86_64.r 371 kB/s | 1.7 MB     00:04
+    centralRouter: (10/10): vim-common-8.2.2637-44.el9_9.x86_64.rp 859 kB/s | 6.6 MB     00:07
+    centralRouter: --------------------------------------------------------------------------------
+    centralRouter: Total                                           1.1 MB/s | 9.4 MB     00:08
+    centralRouter: Running transaction check
+    centralRouter: Transaction check succeeded.
+    centralRouter: Running transaction test
+    centralRouter: Transaction test succeeded.
+    centralRouter: Running transaction
+    centralRouter:   Preparing        :                                                        1/1
+    centralRouter:   Upgrading        : iptables-libs-1.8.10-11.el9_5.x86_64                  1/11
+    centralRouter:   Installing       : vim-filesystem-2:8.2.2637-44.el9_9.noarch             2/11
+    centralRouter:   Installing       : vim-common-2:8.2.2637-44.el9_9.x86_64                 3/11
+    centralRouter:   Installing       : libnftnl-1.2.6-4.el9_4.x86_64                         4/11
+    centralRouter:   Installing       : iptables-nft-1.8.10-11.el9_5.x86_64                   5/11
+    centralRouter:   Running scriptlet: iptables-nft-1.8.10-11.el9_5.x86_64                   5/11
+    centralRouter:   Installing       : gpm-libs-1.20.7-29.el9.x86_64                         6/11
+    centralRouter:   Installing       : vim-enhanced-2:8.2.2637-44.el9_9.x86_64               7/11
+    centralRouter:   Installing       : iptables-nft-services-1.8.10-11.el9_5.noarch          8/11
+    centralRouter:   Running scriptlet: iptables-nft-services-1.8.10-11.el9_5.noarch          8/11
+    centralRouter:   Installing       : traceroute-3:2.1.1-1.el9.x86_64                       9/11
+    centralRouter:   Installing       : net-tools-2.0-0.64.20160912git.el9.x86_64            10/11
+    centralRouter:   Running scriptlet: net-tools-2.0-0.64.20160912git.el9.x86_64            10/11
+    centralRouter:   Cleanup          : iptables-libs-1.8.10-4.el9_4.x86_64                  11/11
+    centralRouter:   Running scriptlet: iptables-libs-1.8.10-4.el9_4.x86_64                  11/11
+    centralRouter:   Verifying        : gpm-libs-1.20.7-29.el9.x86_64                         1/11
+    centralRouter:   Verifying        : iptables-nft-services-1.8.10-11.el9_5.noarch          2/11
+    centralRouter:   Verifying        : vim-common-2:8.2.2637-44.el9_9.x86_64                 3/11
+    centralRouter:   Verifying        : vim-enhanced-2:8.2.2637-44.el9_9.x86_64               4/11
+    centralRouter:   Verifying        : iptables-nft-1.8.10-11.el9_5.x86_64                   5/11
+    centralRouter:   Verifying        : libnftnl-1.2.6-4.el9_4.x86_64                         6/11
+    centralRouter:   Verifying        : net-tools-2.0-0.64.20160912git.el9.x86_64             7/11
+    centralRouter:   Verifying        : traceroute-3:2.1.1-1.el9.x86_64                       8/11
+    centralRouter:   Verifying        : vim-filesystem-2:8.2.2637-44.el9_9.noarch             9/11
+    centralRouter:   Verifying        : iptables-libs-1.8.10-11.el9_5.x86_64                 10/11
+    centralRouter:   Verifying        : iptables-libs-1.8.10-4.el9_4.x86_64                  11/11
+    centralRouter:
+    centralRouter: Upgraded:
+    centralRouter:   iptables-libs-1.8.10-11.el9_5.x86_64
+    centralRouter: Installed:
+    centralRouter:   gpm-libs-1.20.7-29.el9.x86_64
+    centralRouter:   iptables-nft-1.8.10-11.el9_5.x86_64
+    centralRouter:   iptables-nft-services-1.8.10-11.el9_5.noarch
+    centralRouter:   libnftnl-1.2.6-4.el9_4.x86_64
+    centralRouter:   net-tools-2.0-0.64.20160912git.el9.x86_64
+    centralRouter:   traceroute-3:2.1.1-1.el9.x86_64
+    centralRouter:   vim-common-2:8.2.2637-44.el9_9.x86_64
+    centralRouter:   vim-enhanced-2:8.2.2637-44.el9_9.x86_64
+    centralRouter:   vim-filesystem-2:8.2.2637-44.el9_9.noarch
+    centralRouter:
+    centralRouter: Complete!
+    centralRouter: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/7)
+    centralRouter: net.ipv4.ip_forward = 1
+    centralRouter: net.ipv4.ip_forward = 1
+    centralRouter: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/8)
+    centralRouter: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/9)
+    centralRouter: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/10)
+    centralRouter: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/11)
+==> office1Router: You assigned a static IP ending in ".1" or ":1" to this machine.
+==> office1Router: This is very often used by the router and can cause the
+==> office1Router: network to not work properly. If the network doesn't work
+==> office1Router: properly, try changing this IP.
+==> office1Router: Importing base box 'almalinux/9'...
+==> office1Router: Matching MAC address for NAT networking...
+==> office1Router: You assigned a static IP ending in ".1" or ":1" to this machine.
+==> office1Router: This is very often used by the router and can cause the
+==> office1Router: network to not work properly. If the network doesn't work
+==> office1Router: properly, try changing this IP.
+==> office1Router: Checking if box 'almalinux/9' version '1.0.0' is up to date...
+==> office1Router: Setting the name of the VM: dz2_office1Router_1795264433669_80994
+==> office1Router: Fixed port collision for 22 => 2222. Now on port 2201.
+==> office1Router: Clearing any previously set network interfaces...
+==> office1Router: Preparing network interfaces based on configuration...
+    office1Router: Adapter 1: nat
+    office1Router: Adapter 2: intnet
+    office1Router: Adapter 3: hostonly
+    office1Router: Adapter 5: intnet
+==> office1Router: Forwarding ports...
+    office1Router: 22 (guest) => 2201 (host) (adapter 1)
+==> office1Router: Running 'pre-boot' VM customizations...
+==> office1Router: Booting VM...
+==> office1Router: Waiting for machine to boot. This may take a few minutes...
+    office1Router: SSH address: 127.0.0.1:2201
+    office1Router: SSH username: vagrant
+    office1Router: SSH auth method: private key
+    office1Router:
+    office1Router: Vagrant insecure key detected. Vagrant will automatically replace
+    office1Router: this with a newly generated keypair for better security.
+    office1Router:
+    office1Router: Inserting generated public key within guest...
+==> office1Router: Machine booted and ready!
+==> office1Router: Checking for guest additions in VM...
+==> office1Router: Setting hostname...
+==> office1Router: Configuring and enabling network interfaces...
+==> office1Router: Mounting shared folders...
+    office1Router: D:/linux/Professional/37 Сетевые пакеты. VLAN'ы. LACP/dz2 => /vagrant
+==> office1Router: Running provisioner: shell...
+    office1Router: Running: inline script
+    office1Router: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/6)
+    office1Router: net.ipv4.ip_forward = 1
+    office1Router: net.ipv4.ip_forward = 1
+    office1Router: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/7)
+    office1Router: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/8)
+==> testclient1: Importing base box 'almalinux/9'...
+==> testclient1: Matching MAC address for NAT networking...
+==> testclient1: Checking if box 'almalinux/9' version '1.0.0' is up to date...
+==> testclient1: Setting the name of the VM: dz2_testclient1_1795264497562_31481
+==> testclient1: Fixed port collision for 22 => 2222. Now on port 2202.
+==> testclient1: Clearing any previously set network interfaces...
+==> testclient1: Preparing network interfaces based on configuration...
+    testclient1: Adapter 1: nat
+    testclient1: Adapter 2: intnet
+    testclient1: Adapter 3: hostonly
+==> testclient1: Forwarding ports...
+    testclient1: 22 (guest) => 2202 (host) (adapter 1)
+==> testclient1: Running 'pre-boot' VM customizations...
+==> testclient1: Booting VM...
+==> testclient1: Waiting for machine to boot. This may take a few minutes...
+    testclient1: SSH address: 127.0.0.1:2202
+    testclient1: SSH username: vagrant
+    testclient1: SSH auth method: private key
+    testclient1:
+    testclient1: Vagrant insecure key detected. Vagrant will automatically replace
+    testclient1: this with a newly generated keypair for better security.
+    testclient1:
+    testclient1: Inserting generated public key within guest...
+==> testclient1: Machine booted and ready!
+==> testclient1: Checking for guest additions in VM...
+==> testclient1: Setting hostname...
+==> testclient1: Configuring and enabling network interfaces...
+==> testclient1: Mounting shared folders...
+    testclient1: D:/linux/Professional/37 Сетевые пакеты. VLAN'ы. LACP/dz2 => /vagrant
+==> testclient1: Running provisioner: shell...
+    testclient1: Running: inline script
+    testclient1: AlmaLinux 9 - AppStream                         1.0 MB/s |  13 MB     00:12
+    testclient1: AlmaLinux 9 - BaseOS                            939 kB/s | 6.6 MB     00:07
+    testclient1: AlmaLinux 9 - Extras                             70 kB/s |  33 kB     00:00
+    testclient1: Last metadata expiration check: 0:00:01 ago on Sat 21 Nov 2026 12:36:16 PM UTC.
+    testclient1: Package tcpdump-14:4.99.0-9.el9.x86_64 is already installed.
+    testclient1: Dependencies resolved.
+    testclient1: ================================================================================
+    testclient1:  Package                 Arch     Version                     Repository   Size
+    testclient1: ================================================================================
+    testclient1: Installing:
+    testclient1:  iptables-nft-services   noarch   1.8.10-11.el9_5             appstream    18 k
+    testclient1:  net-tools               x86_64   2.0-0.64.20160912git.el9    baseos      294 k
+    testclient1:  traceroute              x86_64   3:2.1.1-1.el9               baseos       56 k
+    testclient1:  vim-enhanced            x86_64   2:8.2.2637-44.el9_9         appstream   1.7 M
+    testclient1: Upgrading:
+    testclient1:  iptables-libs           x86_64   1.8.10-11.el9_5             baseos      397 k
+    testclient1: Installing dependencies:
+    testclient1:  gpm-libs                x86_64   1.20.7-29.el9               appstream    20 k
+    testclient1:  iptables-nft            x86_64   1.8.10-11.el9_5             baseos      187 k
+    testclient1:  libnftnl                x86_64   1.2.6-4.el9_4               baseos       87 k
+    testclient1:  vim-common              x86_64   2:8.2.2637-44.el9_9         appstream   6.6 M
+    testclient1:  vim-filesystem          noarch   2:8.2.2637-44.el9_9         baseos       13 k
+    testclient1:
+    testclient1: Transaction Summary
+    testclient1: ================================================================================
+    testclient1: Install  9 Packages
+    testclient1: Upgrade  1 Package
+    testclient1:
+    testclient1: Total download size: 9.4 M
+    testclient1: Downloading Packages:
+    testclient1: (1/10): gpm-libs-1.20.7-29.el9.x86_64.rpm       1.1 MB/s |  20 kB     00:00
+    testclient1: (2/10): iptables-nft-services-1.8.10-11.el9_5.n 829 kB/s |  18 kB     00:00
+    testclient1: (3/10): iptables-nft-1.8.10-11.el9_5.x86_64.rpm 2.7 MB/s | 187 kB     00:00
+    testclient1: (4/10): libnftnl-1.2.6-4.el9_4.x86_64.rpm       272 kB/s |  87 kB     00:00
+    testclient1: (5/10): net-tools-2.0-0.64.20160912git.el9.x86_ 148 kB/s | 294 kB     00:01
+    testclient1: (6/10): traceroute-2.1.1-1.el9.x86_64.rpm       1.1 MB/s |  56 kB     00:00
+    testclient1: (7/10): vim-filesystem-8.2.2637-44.el9_9.noarch 1.6 MB/s |  13 kB     00:00
+    testclient1: (8/10): iptables-libs-1.8.10-11.el9_5.x86_64.rp 429 kB/s | 397 kB     00:00
+    testclient1: (9/10): vim-enhanced-8.2.2637-44.el9_9.x86_64.r 441 kB/s | 1.7 MB     00:04
+    testclient1: (10/10): vim-common-8.2.2637-44.el9_9.x86_64.rp 730 kB/s | 6.6 MB     00:09
+    testclient1: --------------------------------------------------------------------------------
+    testclient1: Total                                           635 kB/s | 9.4 MB     00:15
+    testclient1: Running transaction check
+    testclient1: Transaction check succeeded.
+    testclient1: Running transaction test
+    testclient1: Transaction test succeeded.
+    testclient1: Running transaction
+    testclient1:   Preparing        :                                                        1/1
+    testclient1:   Upgrading        : iptables-libs-1.8.10-11.el9_5.x86_64                  1/11
+    testclient1:   Installing       : vim-filesystem-2:8.2.2637-44.el9_9.noarch             2/11
+    testclient1:   Installing       : vim-common-2:8.2.2637-44.el9_9.x86_64                 3/11
+    testclient1:   Installing       : libnftnl-1.2.6-4.el9_4.x86_64                         4/11
+    testclient1:   Installing       : iptables-nft-1.8.10-11.el9_5.x86_64                   5/11
+    testclient1:   Running scriptlet: iptables-nft-1.8.10-11.el9_5.x86_64                   5/11
+    testclient1:   Installing       : gpm-libs-1.20.7-29.el9.x86_64                         6/11
+    testclient1:   Installing       : vim-enhanced-2:8.2.2637-44.el9_9.x86_64               7/11
+    testclient1:   Installing       : iptables-nft-services-1.8.10-11.el9_5.noarch          8/11
+    testclient1:   Running scriptlet: iptables-nft-services-1.8.10-11.el9_5.noarch          8/11
+    testclient1:   Installing       : traceroute-3:2.1.1-1.el9.x86_64                       9/11
+    testclient1:   Installing       : net-tools-2.0-0.64.20160912git.el9.x86_64            10/11
+    testclient1:   Running scriptlet: net-tools-2.0-0.64.20160912git.el9.x86_64            10/11
+    testclient1:   Cleanup          : iptables-libs-1.8.10-4.el9_4.x86_64                  11/11
+    testclient1:   Running scriptlet: iptables-libs-1.8.10-4.el9_4.x86_64                  11/11
+    testclient1:   Verifying        : gpm-libs-1.20.7-29.el9.x86_64                         1/11
+    testclient1:   Verifying        : iptables-nft-services-1.8.10-11.el9_5.noarch          2/11
+    testclient1:   Verifying        : vim-common-2:8.2.2637-44.el9_9.x86_64                 3/11
+    testclient1:   Verifying        : vim-enhanced-2:8.2.2637-44.el9_9.x86_64               4/11
+    testclient1:   Verifying        : iptables-nft-1.8.10-11.el9_5.x86_64                   5/11
+    testclient1:   Verifying        : libnftnl-1.2.6-4.el9_4.x86_64                         6/11
+    testclient1:   Verifying        : net-tools-2.0-0.64.20160912git.el9.x86_64             7/11
+    testclient1:   Verifying        : traceroute-3:2.1.1-1.el9.x86_64                       8/11
+    testclient1:   Verifying        : vim-filesystem-2:8.2.2637-44.el9_9.noarch             9/11
+    testclient1:   Verifying        : iptables-libs-1.8.10-11.el9_5.x86_64                 10/11
+    testclient1:   Verifying        : iptables-libs-1.8.10-4.el9_4.x86_64                  11/11
+    testclient1:
+    testclient1: Upgraded:
+    testclient1:   iptables-libs-1.8.10-11.el9_5.x86_64
+    testclient1: Installed:
+    testclient1:   gpm-libs-1.20.7-29.el9.x86_64
+    testclient1:   iptables-nft-1.8.10-11.el9_5.x86_64
+    testclient1:   iptables-nft-services-1.8.10-11.el9_5.noarch
+    testclient1:   libnftnl-1.2.6-4.el9_4.x86_64
+    testclient1:   net-tools-2.0-0.64.20160912git.el9.x86_64
+    testclient1:   traceroute-3:2.1.1-1.el9.x86_64
+    testclient1:   vim-common-2:8.2.2637-44.el9_9.x86_64
+    testclient1:   vim-enhanced-2:8.2.2637-44.el9_9.x86_64
+    testclient1:   vim-filesystem-2:8.2.2637-44.el9_9.noarch
+    testclient1:
+    testclient1: Complete!
+    testclient1: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/5)
+    testclient1: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/6)
+==> testclient2: Importing base box 'ubuntu/jammy64'...
+==> testclient2: Matching MAC address for NAT networking...
+==> testclient2: Checking if box 'ubuntu/jammy64' version '1.0.0' is up to date...
+==> testclient2: Setting the name of the VM: dz2_testclient2_1795264607956_36889
+==> testclient2: Fixed port collision for 22 => 2222. Now on port 2203.
+==> testclient2: Clearing any previously set network interfaces...
+==> testclient2: Preparing network interfaces based on configuration...
+    testclient2: Adapter 1: nat
+    testclient2: Adapter 2: intnet
+    testclient2: Adapter 3: hostonly
+==> testclient2: Forwarding ports...
+    testclient2: 22 (guest) => 2203 (host) (adapter 1)
+==> testclient2: Running 'pre-boot' VM customizations...
+==> testclient2: Booting VM...
+==> testclient2: Waiting for machine to boot. This may take a few minutes...
+    testclient2: SSH address: 127.0.0.1:2203
+    testclient2: SSH username: vagrant
+    testclient2: SSH auth method: private key
+    testclient2:
+    testclient2: Vagrant insecure key detected. Vagrant will automatically replace
+    testclient2: this with a newly generated keypair for better security.
+    testclient2:
+    testclient2: Inserting generated public key within guest...
+==> testclient2: Machine booted and ready!
+==> testclient2: Checking for guest additions in VM...
+    testclient2: The guest additions on this VM do not match the installed version of
+    testclient2: VirtualBox! In most cases this is fine, but in rare cases it can
+    testclient2: prevent things such as shared folders from working properly. If you see
+    testclient2: shared folder errors, please make sure the guest additions within the
+    testclient2: virtual machine match the version of VirtualBox you have installed on
+    testclient2: your host and reload your VM.
+    testclient2:
+    testclient2: Guest Additions Version: 6.0.0 r127566
+    testclient2: VirtualBox Version: 7.1
+==> testclient2: Setting hostname...
+==> testclient2: Configuring and enabling network interfaces...
+==> testclient2: Mounting shared folders...
+    testclient2: D:/linux/Professional/37 Сетевые пакеты. VLAN'ы. LACP/dz2 => /vagrant
+==> testclient2: Running provisioner: shell...
+    testclient2: Running: inline script
+    testclient2:
+    testclient2: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    testclient2:
+    testclient2: Get:1 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+    testclient2: Hit:2 http://archive.ubuntu.com/ubuntu jammy InRelease
+    testclient2: Get:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+    testclient2: Get:4 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+    testclient2: Get:5 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [3740 kB]
+    testclient2: Get:6 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [14.1 MB]
+    testclient2: Get:7 http://security.ubuntu.com/ubuntu jammy-security/main Translation-en [520 kB]
+    testclient2: Get:8 http://security.ubuntu.com/ubuntu jammy-security/main amd64 c-n-f Metadata [14.7 kB]
+    testclient2: Get:9 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [6635 kB]
+    testclient2: Get:10 http://security.ubuntu.com/ubuntu jammy-security/restricted Translation-en [1277 kB]
+    testclient2: Get:11 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 c-n-f Metadata [600 B]
+    testclient2: Get:12 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1058 kB]
+    testclient2: Get:13 http://security.ubuntu.com/ubuntu jammy-security/universe Translation-en [238 kB]
+    testclient2: Get:14 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 c-n-f Metadata [23.2 kB]
+    testclient2: Get:15 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [79.6 kB]
+    testclient2: Get:16 http://security.ubuntu.com/ubuntu jammy-security/multiverse Translation-en [13.6 kB]
+    testclient2: Get:17 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 c-n-f Metadata [544 B]
+    testclient2: Get:18 http://archive.ubuntu.com/ubuntu jammy/universe Translation-en [5652 kB]
+    testclient2: Get:19 http://archive.ubuntu.com/ubuntu jammy/universe amd64 c-n-f Metadata [286 kB]
+    testclient2: Get:20 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [217 kB]
+    testclient2: Get:21 http://archive.ubuntu.com/ubuntu jammy/multiverse Translation-en [112 kB]
+    testclient2: Get:22 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 c-n-f Metadata [8372 B]
+    testclient2: Get:23 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [4012 kB]
+    testclient2: Get:24 http://archive.ubuntu.com/ubuntu jammy-updates/main Translation-en [587 kB]
+    testclient2: Get:25 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 c-n-f Metadata [20.1 kB]
+    testclient2: Get:26 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [6888 kB]
+    testclient2: Get:27 http://archive.ubuntu.com/ubuntu jammy-updates/restricted Translation-en [1326 kB]
+    testclient2: Get:28 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 c-n-f Metadata [584 B]
+    testclient2: Get:29 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1291 kB]
+    testclient2: Get:30 http://archive.ubuntu.com/ubuntu jammy-updates/universe Translation-en [327 kB]
+    testclient2: Get:31 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 c-n-f Metadata [30.8 kB]
+    testclient2: Get:32 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [86.1 kB]
+    testclient2: Get:33 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse Translation-en [16.5 kB]
+    testclient2: Get:34 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 c-n-f Metadata [756 B]
+    testclient2: Get:35 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [70.2 kB]
+    testclient2: Get:36 http://archive.ubuntu.com/ubuntu jammy-backports/main Translation-en [11.4 kB]
+    testclient2: Get:37 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 c-n-f Metadata [412 B]
+    testclient2: Get:38 http://archive.ubuntu.com/ubuntu jammy-backports/restricted amd64 c-n-f Metadata [116 B]
+    testclient2: Get:39 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [30.8 kB]
+    testclient2: Get:40 http://archive.ubuntu.com/ubuntu jammy-backports/universe Translation-en [16.9 kB]
+    testclient2: Get:41 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 c-n-f Metadata [676 B]
+    testclient2: Get:42 http://archive.ubuntu.com/ubuntu jammy-backports/multiverse amd64 c-n-f Metadata [116 B]
+    testclient2: Fetched 49.1 MB in 44s (1112 kB/s)
+    testclient2: Reading package lists...
+    testclient2: Building dependency tree...
+    testclient2: Reading state information...
+    testclient2: 309 packages can be upgraded. Run 'apt list --upgradable' to see them.
+    testclient2:
+    testclient2: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    testclient2:
+    testclient2: Reading package lists...
+    testclient2: Building dependency tree...
+    testclient2: Reading state information...
+    testclient2: The following additional packages will be installed:
+    testclient2:   vim-common vim-runtime vim-tiny
+    testclient2: Suggested packages:
+    testclient2:   ctags vim-doc vim-scripts indent
+    testclient2: The following NEW packages will be installed:
+    testclient2:   net-tools traceroute
+    testclient2: The following packages will be upgraded:
+    testclient2:   tcpdump vim vim-common vim-runtime vim-tiny
+    testclient2: 5 upgraded, 2 newly installed, 0 to remove and 304 not upgraded.
+    testclient2: Need to get 10.1 MB of archives.
+    testclient2: After this operation, 1013 kB of additional disk space will be used.
+    testclient2: Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 vim amd64 2:8.2.3995-1ubuntu2.36 [1733 kB]
+    testclient2: Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 vim-tiny amd64 2:8.2.3995-1ubuntu2.36 [707 kB]
+    testclient2: Get:3 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 vim-runtime all 2:8.2.3995-1ubuntu2.36 [6824 kB]
+    testclient2: Get:4 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 vim-common all 2:8.2.3995-1ubuntu2.36 [81.5 kB]
+    testclient2: Get:5 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 tcpdump amd64 4.99.1-3ubuntu0.2 [501 kB]
+    testclient2: Get:6 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 net-tools amd64 1.60+git20181103.0eebece-1ubuntu5.4 [204 kB]
+    testclient2: Get:7 http://archive.ubuntu.com/ubuntu jammy/universe amd64 traceroute amd64 1:2.1.0-2 [45.4 kB]
+    testclient2: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    testclient2: Fetched 10.1 MB in 9s (1064 kB/s)
+(Reading database ... 63881 files and directories currently installed.)
+    testclient2: Preparing to unpack .../0-vim_2%3a8.2.3995-1ubuntu2.36_amd64.deb ...
+    testclient2: Unpacking vim (2:8.2.3995-1ubuntu2.36) over (2:8.2.3995-1ubuntu2.7) ...
+    testclient2: Preparing to unpack .../1-vim-tiny_2%3a8.2.3995-1ubuntu2.36_amd64.deb ...
+    testclient2: Unpacking vim-tiny (2:8.2.3995-1ubuntu2.36) over (2:8.2.3995-1ubuntu2.7) ...
+    testclient2: Preparing to unpack .../2-vim-runtime_2%3a8.2.3995-1ubuntu2.36_all.deb ...
+    testclient2: Unpacking vim-runtime (2:8.2.3995-1ubuntu2.36) over (2:8.2.3995-1ubuntu2.7) ...
+    testclient2: Preparing to unpack .../3-vim-common_2%3a8.2.3995-1ubuntu2.36_all.deb ...
+    testclient2: Unpacking vim-common (2:8.2.3995-1ubuntu2.36) over (2:8.2.3995-1ubuntu2.7) ...
+    testclient2: Preparing to unpack .../4-tcpdump_4.99.1-3ubuntu0.2_amd64.deb ...
+    testclient2: Unpacking tcpdump (4.99.1-3ubuntu0.2) over (4.99.1-3ubuntu0.1) ...
+    testclient2: Selecting previously unselected package net-tools.
+    testclient2: Preparing to unpack .../5-net-tools_1.60+git20181103.0eebece-1ubuntu5.4_amd64.deb ...
+    testclient2: Unpacking net-tools (1.60+git20181103.0eebece-1ubuntu5.4) ...
+    testclient2: Selecting previously unselected package traceroute.
+    testclient2: Preparing to unpack .../6-traceroute_1%3a2.1.0-2_amd64.deb ...
+    testclient2: Unpacking traceroute (1:2.1.0-2) ...
+    testclient2: Setting up tcpdump (4.99.1-3ubuntu0.2) ...
+    testclient2: Installing new version of config file /etc/apparmor.d/usr.bin.tcpdump ...
+    testclient2: Setting up net-tools (1.60+git20181103.0eebece-1ubuntu5.4) ...
+    testclient2: Setting up traceroute (1:2.1.0-2) ...
+    testclient2: update-alternatives: using /usr/bin/traceroute.db to provide /usr/bin/traceroute (traceroute) in auto mode
+    testclient2: update-alternatives: using /usr/bin/traceroute6.db to provide /usr/bin/traceroute6 (traceroute6) in auto mode
+    testclient2: update-alternatives: using /usr/bin/lft.db to provide /usr/bin/lft (lft) in auto mode
+    testclient2: update-alternatives: using /usr/bin/traceproto.db to provide /usr/bin/traceproto (traceproto) in auto mode
+    testclient2: update-alternatives: using /usr/sbin/tcptraceroute.db to provide /usr/sbin/tcptraceroute (tcptraceroute) in auto mode
+    testclient2: Setting up vim-common (2:8.2.3995-1ubuntu2.36) ...
+    testclient2: Setting up vim-runtime (2:8.2.3995-1ubuntu2.36) ...
+    testclient2: Setting up vim (2:8.2.3995-1ubuntu2.36) ...
+    testclient2: Setting up vim-tiny (2:8.2.3995-1ubuntu2.36) ...
+    testclient2: Processing triggers for man-db (2.10.2-1) ...
+    testclient2:
+    testclient2: Running kernel seems to be up-to-date.
+    testclient2:
+    testclient2: No services need to be restarted.
+    testclient2:
+    testclient2: No containers need to be restarted.
+    testclient2:
+    testclient2: No user sessions are running outdated binaries.
+    testclient2:
+    testclient2: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+==> testserver1: Importing base box 'almalinux/9'...
+==> testserver1: Matching MAC address for NAT networking...
+==> testserver1: Checking if box 'almalinux/9' version '1.0.0' is up to date...
+==> testserver1: Setting the name of the VM: dz2_testserver1_1795264742604_25118
+==> testserver1: Fixed port collision for 22 => 2222. Now on port 2204.
+==> testserver1: Clearing any previously set network interfaces...
+==> testserver1: Preparing network interfaces based on configuration...
+    testserver1: Adapter 1: nat
+    testserver1: Adapter 2: intnet
+    testserver1: Adapter 3: hostonly
+==> testserver1: Forwarding ports...
+    testserver1: 22 (guest) => 2204 (host) (adapter 1)
+==> testserver1: Running 'pre-boot' VM customizations...
+==> testserver1: Booting VM...
+==> testserver1: Waiting for machine to boot. This may take a few minutes...
+    testserver1: SSH address: 127.0.0.1:2204
+    testserver1: SSH username: vagrant
+    testserver1: SSH auth method: private key
+    testserver1:
+    testserver1: Vagrant insecure key detected. Vagrant will automatically replace
+    testserver1: this with a newly generated keypair for better security.
+    testserver1:
+    testserver1: Inserting generated public key within guest...
+==> testserver1: Machine booted and ready!
+==> testserver1: Checking for guest additions in VM...
+==> testserver1: Setting hostname...
+==> testserver1: Configuring and enabling network interfaces...
+==> testserver1: Mounting shared folders...
+    testserver1: D:/linux/Professional/37 Сетевые пакеты. VLAN'ы. LACP/dz2 => /vagrant
+==> testserver1: Running provisioner: shell...
+    testserver1: Running: inline script
+    testserver1: AlmaLinux 9 - AppStream                         512 kB/s |  13 MB     00:25
+    testserver1: AlmaLinux 9 - BaseOS                            580 kB/s | 6.6 MB     00:11
+    testserver1: AlmaLinux 9 - Extras                             70 kB/s |  33 kB     00:00
+    testserver1: Package tcpdump-14:4.99.0-9.el9.x86_64 is already installed.
+    testserver1: Dependencies resolved.
+    testserver1: ================================================================================
+    testserver1:  Package                 Arch     Version                     Repository   Size
+    testserver1: ================================================================================
+    testserver1: Installing:
+    testserver1:  iptables-nft-services   noarch   1.8.10-11.el9_5             appstream    18 k
+    testserver1:  net-tools               x86_64   2.0-0.64.20160912git.el9    baseos      294 k
+    testserver1:  traceroute              x86_64   3:2.1.1-1.el9               baseos       56 k
+    testserver1:  vim-enhanced            x86_64   2:8.2.2637-44.el9_9         appstream   1.7 M
+    testserver1: Upgrading:
+    testserver1:  iptables-libs           x86_64   1.8.10-11.el9_5             baseos      397 k
+    testserver1: Installing dependencies:
+    testserver1:  gpm-libs                x86_64   1.20.7-29.el9               appstream    20 k
+    testserver1:  iptables-nft            x86_64   1.8.10-11.el9_5             baseos      187 k
+    testserver1:  libnftnl                x86_64   1.2.6-4.el9_4               baseos       87 k
+    testserver1:  vim-common              x86_64   2:8.2.2637-44.el9_9         appstream   6.6 M
+    testserver1:  vim-filesystem          noarch   2:8.2.2637-44.el9_9         baseos       13 k
+    testserver1:
+    testserver1: Transaction Summary
+    testserver1: ================================================================================
+    testserver1: Install  9 Packages
+    testserver1: Upgrade  1 Package
+    testserver1:
+    testserver1: Total download size: 9.4 M
+    testserver1: Downloading Packages:
+    testserver1: (1/10): gpm-libs-1.20.7-29.el9.x86_64.rpm       997 kB/s |  20 kB     00:00
+    testserver1: (2/10): iptables-nft-services-1.8.10-11.el9_5.n 783 kB/s |  18 kB     00:00
+    testserver1: (3/10): iptables-nft-1.8.10-11.el9_5.x86_64.rpm 230 kB/s | 187 kB     00:00
+    testserver1: (4/10): libnftnl-1.2.6-4.el9_4.x86_64.rpm       269 kB/s |  87 kB     00:00
+    testserver1: (5/10): net-tools-2.0-0.64.20160912git.el9.x86_ 506 kB/s | 294 kB     00:00
+    testserver1: (6/10): traceroute-2.1.1-1.el9.x86_64.rpm        35 kB/s |  56 kB     00:01
+    testserver1: (7/10): vim-filesystem-8.2.2637-44.el9_9.noarch 946 kB/s |  13 kB     00:00
+    testserver1: (8/10): iptables-libs-1.8.10-11.el9_5.x86_64.rp 219 kB/s | 397 kB     00:01
+    testserver1: (9/10): vim-enhanced-8.2.2637-44.el9_9.x86_64.r 203 kB/s | 1.7 MB     00:08
+    testserver1: (10/10): vim-common-8.2.2637-44.el9_9.x86_64.rp 292 kB/s | 6.6 MB     00:23
+    testserver1: --------------------------------------------------------------------------------
+    testserver1: Total                                           402 kB/s | 9.4 MB     00:23
+    testserver1: Running transaction check
+    testserver1: Transaction check succeeded.
+    testserver1: Running transaction test
+    testserver1: Transaction test succeeded.
+    testserver1: Running transaction
+    testserver1:   Preparing        :                                                        1/1
+    testserver1:   Upgrading        : iptables-libs-1.8.10-11.el9_5.x86_64                  1/11
+    testserver1:   Installing       : vim-filesystem-2:8.2.2637-44.el9_9.noarch             2/11
+    testserver1:   Installing       : vim-common-2:8.2.2637-44.el9_9.x86_64                 3/11
+    testserver1:   Installing       : libnftnl-1.2.6-4.el9_4.x86_64                         4/11
+    testserver1:   Installing       : iptables-nft-1.8.10-11.el9_5.x86_64                   5/11
+    testserver1:   Running scriptlet: iptables-nft-1.8.10-11.el9_5.x86_64                   5/11
+    testserver1:   Installing       : gpm-libs-1.20.7-29.el9.x86_64                         6/11
+    testserver1:   Installing       : vim-enhanced-2:8.2.2637-44.el9_9.x86_64               7/11
+    testserver1:   Installing       : iptables-nft-services-1.8.10-11.el9_5.noarch          8/11
+    testserver1:   Running scriptlet: iptables-nft-services-1.8.10-11.el9_5.noarch          8/11
+    testserver1:   Installing       : traceroute-3:2.1.1-1.el9.x86_64                       9/11
+    testserver1:   Installing       : net-tools-2.0-0.64.20160912git.el9.x86_64            10/11
+    testserver1:   Running scriptlet: net-tools-2.0-0.64.20160912git.el9.x86_64            10/11
+    testserver1:   Cleanup          : iptables-libs-1.8.10-4.el9_4.x86_64                  11/11
+    testserver1:   Running scriptlet: iptables-libs-1.8.10-4.el9_4.x86_64                  11/11
+    testserver1:   Verifying        : gpm-libs-1.20.7-29.el9.x86_64                         1/11
+    testserver1:   Verifying        : iptables-nft-services-1.8.10-11.el9_5.noarch          2/11
+    testserver1:   Verifying        : vim-common-2:8.2.2637-44.el9_9.x86_64                 3/11
+    testserver1:   Verifying        : vim-enhanced-2:8.2.2637-44.el9_9.x86_64               4/11
+    testserver1:   Verifying        : iptables-nft-1.8.10-11.el9_5.x86_64                   5/11
+    testserver1:   Verifying        : libnftnl-1.2.6-4.el9_4.x86_64                         6/11
+    testserver1:   Verifying        : net-tools-2.0-0.64.20160912git.el9.x86_64             7/11
+    testserver1:   Verifying        : traceroute-3:2.1.1-1.el9.x86_64                       8/11
+    testserver1:   Verifying        : vim-filesystem-2:8.2.2637-44.el9_9.noarch             9/11
+    testserver1:   Verifying        : iptables-libs-1.8.10-11.el9_5.x86_64                 10/11
+    testserver1:   Verifying        : iptables-libs-1.8.10-4.el9_4.x86_64                  11/11
+    testserver1:
+    testserver1: Upgraded:
+    testserver1:   iptables-libs-1.8.10-11.el9_5.x86_64
+    testserver1: Installed:
+    testserver1:   gpm-libs-1.20.7-29.el9.x86_64
+    testserver1:   iptables-nft-1.8.10-11.el9_5.x86_64
+    testserver1:   iptables-nft-services-1.8.10-11.el9_5.noarch
+    testserver1:   libnftnl-1.2.6-4.el9_4.x86_64
+    testserver1:   net-tools-2.0-0.64.20160912git.el9.x86_64
+    testserver1:   traceroute-3:2.1.1-1.el9.x86_64
+    testserver1:   vim-common-2:8.2.2637-44.el9_9.x86_64
+    testserver1:   vim-enhanced-2:8.2.2637-44.el9_9.x86_64
+    testserver1:   vim-filesystem-2:8.2.2637-44.el9_9.noarch
+    testserver1:
+    testserver1: Complete!
+    testserver1: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/5)
+    testserver1: Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/6)
+==> testserver2: Importing base box 'ubuntu/jammy64'...
+==> testserver2: Matching MAC address for NAT networking...
+==> testserver2: Checking if box 'ubuntu/jammy64' version '1.0.0' is up to date...
+==> testserver2: Setting the name of the VM: dz2_testserver2_1795264880512_28208
+==> testserver2: Fixed port collision for 22 => 2222. Now on port 2205.
+==> testserver2: Clearing any previously set network interfaces...
+==> testserver2: Preparing network interfaces based on configuration...
+    testserver2: Adapter 1: nat
+    testserver2: Adapter 2: intnet
+    testserver2: Adapter 3: hostonly
+==> testserver2: Forwarding ports...
+    testserver2: 22 (guest) => 2205 (host) (adapter 1)
+==> testserver2: Running 'pre-boot' VM customizations...
+==> testserver2: Booting VM...
+==> testserver2: Waiting for machine to boot. This may take a few minutes...
+    testserver2: SSH address: 127.0.0.1:2205
+    testserver2: SSH username: vagrant
+    testserver2: SSH auth method: private key
+    testserver2: Warning: Connection reset. Retrying...
+    testserver2:
+    testserver2: Vagrant insecure key detected. Vagrant will automatically replace
+    testserver2: this with a newly generated keypair for better security.
+    testserver2:
+    testserver2: Inserting generated public key within guest...
+==> testserver2: Machine booted and ready!
+==> testserver2: Checking for guest additions in VM...
+    testserver2: The guest additions on this VM do not match the installed version of
+    testserver2: VirtualBox! In most cases this is fine, but in rare cases it can
+    testserver2: prevent things such as shared folders from working properly. If you see
+    testserver2: shared folder errors, please make sure the guest additions within the
+    testserver2: virtual machine match the version of VirtualBox you have installed on
+    testserver2: your host and reload your VM.
+    testserver2:
+    testserver2: Guest Additions Version: 6.0.0 r127566
+    testserver2: VirtualBox Version: 7.1
+==> testserver2: Setting hostname...
+==> testserver2: Configuring and enabling network interfaces...
+==> testserver2: Mounting shared folders...
+    testserver2: D:/linux/Professional/37 Сетевые пакеты. VLAN'ы. LACP/dz2 => /vagrant
+==> testserver2: Running provisioner: shell...
+    testserver2: Running: inline script
+    testserver2:
+    testserver2: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    testserver2:
+    testserver2: Get:1 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+    testserver2: Hit:2 http://archive.ubuntu.com/ubuntu jammy InRelease
+    testserver2: Get:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+    testserver2: Get:4 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+    testserver2: Get:5 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [3740 kB]
+    testserver2: Get:6 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [14.1 MB]
+    testserver2: Get:7 http://security.ubuntu.com/ubuntu jammy-security/main Translation-en [520 kB]
+    testserver2: Get:8 http://security.ubuntu.com/ubuntu jammy-security/main amd64 c-n-f Metadata [14.7 kB]
+    testserver2: Get:9 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [6635 kB]
+    testserver2: Get:10 http://security.ubuntu.com/ubuntu jammy-security/restricted Translation-en [1277 kB]
+    testserver2: Get:11 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 c-n-f Metadata [600 B]
+    testserver2: Get:12 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1058 kB]
+    testserver2: Get:13 http://archive.ubuntu.com/ubuntu jammy/universe Translation-en [5652 kB]
+    testserver2: Get:14 http://security.ubuntu.com/ubuntu jammy-security/universe Translation-en [238 kB]
+    testserver2: Get:15 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 c-n-f Metadata [23.2 kB]
+    testserver2: Get:16 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [79.6 kB]
+    testserver2: Get:17 http://security.ubuntu.com/ubuntu jammy-security/multiverse Translation-en [13.6 kB]
+    testserver2: Get:18 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 c-n-f Metadata [544 B]
+    testserver2: Get:19 http://archive.ubuntu.com/ubuntu jammy/universe amd64 c-n-f Metadata [286 kB]
+    testserver2: Get:20 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [217 kB]
+    testserver2: Get:21 http://archive.ubuntu.com/ubuntu jammy/multiverse Translation-en [112 kB]
+    testserver2: Get:22 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 c-n-f Metadata [8372 B]
+    testserver2: Get:23 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [4012 kB]
+    testserver2: Get:24 http://archive.ubuntu.com/ubuntu jammy-updates/main Translation-en [587 kB]
+    testserver2: Get:25 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 c-n-f Metadata [20.1 kB]
+    testserver2: Get:26 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [6888 kB]
+    testserver2: Get:27 http://archive.ubuntu.com/ubuntu jammy-updates/restricted Translation-en [1326 kB]
+    testserver2: Get:28 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 c-n-f Metadata [584 B]
+    testserver2: Get:29 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1291 kB]
+    testserver2: Get:30 http://archive.ubuntu.com/ubuntu jammy-updates/universe Translation-en [327 kB]
+    testserver2: Get:31 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 c-n-f Metadata [30.8 kB]
+    testserver2: Get:32 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [86.1 kB]
+    testserver2: Get:33 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse Translation-en [16.5 kB]
+    testserver2: Get:34 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 c-n-f Metadata [756 B]
+    testserver2: Get:35 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [70.2 kB]
+    testserver2: Get:36 http://archive.ubuntu.com/ubuntu jammy-backports/main Translation-en [11.4 kB]
+    testserver2: Get:37 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 c-n-f Metadata [412 B]
+    testserver2: Get:38 http://archive.ubuntu.com/ubuntu jammy-backports/restricted amd64 c-n-f Metadata [116 B]
+    testserver2: Get:39 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [30.8 kB]
+    testserver2: Get:40 http://archive.ubuntu.com/ubuntu jammy-backports/universe Translation-en [16.9 kB]
+    testserver2: Get:41 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 c-n-f Metadata [676 B]
+    testserver2: Get:42 http://archive.ubuntu.com/ubuntu jammy-backports/multiverse amd64 c-n-f Metadata [116 B]
+    testserver2: Fetched 49.1 MB in 49s (996 kB/s)
+    testserver2: Reading package lists...
+    testserver2: Building dependency tree...
+    testserver2: Reading state information...
+    testserver2: 309 packages can be upgraded. Run 'apt list --upgradable' to see them.
+    testserver2:
+    testserver2: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    testserver2:
+    testserver2: Reading package lists...
+    testserver2: Building dependency tree...
+    testserver2: Reading state information...
+    testserver2: The following additional packages will be installed:
+    testserver2:   vim-common vim-runtime vim-tiny
+    testserver2: Suggested packages:
+    testserver2:   ctags vim-doc vim-scripts indent
+    testserver2: The following NEW packages will be installed:
+    testserver2:   net-tools traceroute
+    testserver2: The following packages will be upgraded:
+    testserver2:   tcpdump vim vim-common vim-runtime vim-tiny
+    testserver2: 5 upgraded, 2 newly installed, 0 to remove and 304 not upgraded.
+    testserver2: Need to get 10.1 MB of archives.
+    testserver2: After this operation, 1013 kB of additional disk space will be used.
+    testserver2: Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 vim amd64 2:8.2.3995-1ubuntu2.36 [1733 kB]
+    testserver2: Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 vim-tiny amd64 2:8.2.3995-1ubuntu2.36 [707 kB]
+    testserver2: Get:3 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 vim-runtime all 2:8.2.3995-1ubuntu2.36 [6824 kB]
+    testserver2: Get:4 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 vim-common all 2:8.2.3995-1ubuntu2.36 [81.5 kB]
+    testserver2: Get:5 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 tcpdump amd64 4.99.1-3ubuntu0.2 [501 kB]
+    testserver2: Get:6 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 net-tools amd64 1.60+git20181103.0eebece-1ubuntu5.4 [204 kB]
+    testserver2: Get:7 http://archive.ubuntu.com/ubuntu jammy/universe amd64 traceroute amd64 1:2.1.0-2 [45.4 kB]
+    testserver2: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    testserver2: Fetched 10.1 MB in 10s (987 kB/s)
+(Reading database ... 63881 files and directories currently installed.)
+    testserver2: Preparing to unpack .../0-vim_2%3a8.2.3995-1ubuntu2.36_amd64.deb ...
+    testserver2: Unpacking vim (2:8.2.3995-1ubuntu2.36) over (2:8.2.3995-1ubuntu2.7) ...
+    testserver2: Preparing to unpack .../1-vim-tiny_2%3a8.2.3995-1ubuntu2.36_amd64.deb ...
+    testserver2: Unpacking vim-tiny (2:8.2.3995-1ubuntu2.36) over (2:8.2.3995-1ubuntu2.7) ...
+    testserver2: Preparing to unpack .../2-vim-runtime_2%3a8.2.3995-1ubuntu2.36_all.deb ...
+    testserver2: Unpacking vim-runtime (2:8.2.3995-1ubuntu2.36) over (2:8.2.3995-1ubuntu2.7) ...
+    testserver2: Preparing to unpack .../3-vim-common_2%3a8.2.3995-1ubuntu2.36_all.deb ...
+    testserver2: Unpacking vim-common (2:8.2.3995-1ubuntu2.36) over (2:8.2.3995-1ubuntu2.7) ...
+    testserver2: Preparing to unpack .../4-tcpdump_4.99.1-3ubuntu0.2_amd64.deb ...
+    testserver2: Unpacking tcpdump (4.99.1-3ubuntu0.2) over (4.99.1-3ubuntu0.1) ...
+    testserver2: Selecting previously unselected package net-tools.
+    testserver2: Preparing to unpack .../5-net-tools_1.60+git20181103.0eebece-1ubuntu5.4_amd64.deb ...
+    testserver2: Unpacking net-tools (1.60+git20181103.0eebece-1ubuntu5.4) ...
+    testserver2: Selecting previously unselected package traceroute.
+    testserver2: Preparing to unpack .../6-traceroute_1%3a2.1.0-2_amd64.deb ...
+    testserver2: Unpacking traceroute (1:2.1.0-2) ...
+    testserver2: Setting up tcpdump (4.99.1-3ubuntu0.2) ...
+    testserver2: Installing new version of config file /etc/apparmor.d/usr.bin.tcpdump ...
+    testserver2: Setting up net-tools (1.60+git20181103.0eebece-1ubuntu5.4) ...
+    testserver2: Setting up traceroute (1:2.1.0-2) ...
+    testserver2: update-alternatives: using /usr/bin/traceroute.db to provide /usr/bin/traceroute (traceroute) in auto mode
+    testserver2: update-alternatives: using /usr/bin/traceroute6.db to provide /usr/bin/traceroute6 (traceroute6) in auto mode
+    testserver2: update-alternatives: using /usr/bin/lft.db to provide /usr/bin/lft (lft) in auto mode
+    testserver2: update-alternatives: using /usr/bin/traceproto.db to provide /usr/bin/traceproto (traceproto) in auto mode
+    testserver2: update-alternatives: using /usr/sbin/tcptraceroute.db to provide /usr/sbin/tcptraceroute (tcptraceroute) in auto mode
+    testserver2: Setting up vim-common (2:8.2.3995-1ubuntu2.36) ...
+    testserver2: Setting up vim-runtime (2:8.2.3995-1ubuntu2.36) ...
+    testserver2: Setting up vim (2:8.2.3995-1ubuntu2.36) ...
+    testserver2: Setting up vim-tiny (2:8.2.3995-1ubuntu2.36) ...
+    testserver2: Processing triggers for man-db (2.10.2-1) ...
+    testserver2:
+    testserver2: Running kernel seems to be up-to-date.
+    testserver2:
+    testserver2: No services need to be restarted.
+    testserver2:
+    testserver2: No containers need to be restarted.
+    testserver2:
+    testserver2: No user sessions are running outdated binaries.
+    testserver2:
+    testserver2: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2>
 
 #########################
 ##                     ##
@@ -13,9 +901,219 @@
 #########################
 
 # проверка что testclient1, testserver1, testclient2 и testserver2 видят друг друга по сети.
-# т.е. разделения на вланы нет.
+# т.е. разделения на вланы нет, вланов тоже нет.
+
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2> vagrant ssh testclient1
+vagrant@127.0.0.1's password:
+[vagrant@testclient1 ~]$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             10.0.2.15/24 fd17:625c:f037:2:a00:27ff:fe0d:f5f0/64 fe80::a00:27ff:fe0d:f5f0/64
+eth1             UP             192.168.56.2/24 fe80::a00:27ff:fe6d:1a14/64
+eth2             UP             192.168.64.10/24 fe80::a00:27ff:fe52:9bef/64
+[vagrant@testclient1 ~]$ ping 192.168.56.3
+64 bytes from 192.168.56.3: icmp_seq=1 ttl=64 time=4.42 ms
+64 bytes from 192.168.56.3: icmp_seq=2 ttl=64 time=1.06 ms
+64 bytes from 192.168.56.3: icmp_seq=3 ttl=64 time=1.01 ms
+^C
+--- 192.168.56.3 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2012ms
+rtt min/avg/max/mdev = 1.013/2.164/4.420/1.594 ms
+[vagrant@testclient1 ~]$ ping -c 3 192.168.56.4
+PING 192.168.56.4 (192.168.56.4) 56(84) bytes of data.
+64 bytes from 192.168.56.4: icmp_seq=1 ttl=64 time=1.79 ms
+64 bytes from 192.168.56.4: icmp_seq=2 ttl=64 time=0.711 ms
+64 bytes from 192.168.56.4: icmp_seq=3 ttl=64 time=0.877 ms
+
+--- 192.168.56.4 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2048ms
+rtt min/avg/max/mdev = 0.711/1.126/1.791/0.474 ms
+[vagrant@testclient1 ~]$ ping -c 3 192.168.56.5
+PING 192.168.56.5 (192.168.56.5) 56(84) bytes of data.
+64 bytes from 192.168.56.5: icmp_seq=1 ttl=64 time=2.12 ms
+64 bytes from 192.168.56.5: icmp_seq=2 ttl=64 time=0.838 ms
+64 bytes from 192.168.56.5: icmp_seq=3 ttl=64 time=0.908 ms
+
+--- 192.168.56.5 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2005ms
+rtt min/avg/max/mdev = 0.838/1.288/2.120/0.588 ms
+[vagrant@testclient1 ~]$ ip -d link show type vlan
+[vagrant@testclient1 ~]$ exit
+logout
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2> vagrant ssh testserver1
+vagrant@127.0.0.1's password:
+[vagrant@testserver1 ~]$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             10.0.2.15/24 fd17:625c:f037:2:a00:27ff:fe0d:f5f0/64 fe80::a00:27ff:fe0d:f5f0/64
+eth1             UP             192.168.56.4/24 fe80::a00:27ff:fec3:4bee/64
+eth2             UP             192.168.66.10/24 fe80::a00:27ff:fe0d:51f8/64
+[vagrant@testserver1 ~]$ ping -c 3 192.168.56.2
+64 bytes from 192.168.56.2: icmp_seq=1 ttl=64 time=2.71 ms
+
+--- 192.168.56.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2004ms
+rtt min/avg/max/mdev = 0.647/1.408/2.706/0.921 ms
+[vagrant@testserver1 ~]$ ping -c 3 192.168.56.3
+PING 192.168.56.3 (192.168.56.3) 56(84) bytes of data.
+64 bytes from 192.168.56.3: icmp_seq=1 ttl=64 time=2.28 ms
+64 bytes from 192.168.56.3: icmp_seq=2 ttl=64 time=1.06 ms
+64 bytes from 192.168.56.3: icmp_seq=3 ttl=64 time=0.955 ms
+
+--- 192.168.56.3 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2005ms
+rtt min/avg/max/mdev = 0.955/1.433/2.281/0.601 ms
+[vagrant@testserver1 ~]$ ping -c 3 192.168.56.5
+PING 192.168.56.5 (192.168.56.5) 56(84) bytes of data.
+64 bytes from 192.168.56.5: icmp_seq=1 ttl=64 time=1.36 ms
+64 bytes from 192.168.56.5: icmp_seq=2 ttl=64 time=3.20 ms
+64 bytes from 192.168.56.5: icmp_seq=3 ttl=64 time=0.647 ms
+
+--- 192.168.56.5 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2005ms
+rtt min/avg/max/mdev = 0.647/1.735/3.202/1.076 ms
+[vagrant@testserver1 ~]$ ip -d link show type vlan
+[vagrant@testserver1 ~]$ exit
+logout
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2> vagrant ssh testclient2
+vagrant@127.0.0.1: Permission denied (publickey).
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2> $env:VAGRANT_PREFER_SYSTEM_BIN = 0
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2> vagrant ssh testclient2
+Welcome to Ubuntu 22.04.2 LTS (GNU/Linux 5.15.0-71-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat Nov 21 12:59:50 UTC 2026
+
+  System load:             0.0
+  Usage of /:              4.7% of 38.70GB
+  Memory usage:            11%
+  Swap usage:              0%
+  Processes:               102
+  Users logged in:         0
+  IPv4 address for enp0s3: 10.0.2.15
+  IPv6 address for enp0s3: fd17:625c:f037:2:44:a4ff:fe14:4581
+  IPv4 address for enp0s8: 192.168.56.3
+  IPv4 address for enp0s9: 192.168.65.10
 
 
+Expanded Security Maintenance for Applications is not enabled.
+
+313 updates can be applied immediately.
+233 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+1 additional security update can be applied with ESM Apps.
+Learn more about enabling ESM Apps service at https://ubuntu.com/esm
+
+New release '24.04.5 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+vagrant@testclient2:~$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+enp0s3           UP             10.0.2.15/24 metric 100 fd17:625c:f037:2:44:a4ff:fe14:4581/64 fe80::44:a4ff:fe14:4581/64
+enp0s8           UP             192.168.56.3/24 fe80::a00:27ff:fe64:53e4/64
+enp0s9           UP             192.168.65.10/24 fe80::a00:27ff:fef5:671a/64
+vagrant@testclient2:~$ ping -c 3 192.168.56.2
+64 bytes from 192.168.56.2: icmp_seq=1 ttl=64 time=0.689 ms
+64 bytes from 192.168.56.2: icmp_seq=2 ttl=64 time=2.88 ms
+64 bytes from 192.168.56.2: icmp_seq=3 ttl=64 time=0.779 ms
+
+--- 192.168.56.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2028ms
+rtt min/avg/max/mdev = 0.689/1.449/2.881/1.012 ms
+vagrant@testclient2:~$ ping -c 3 192.168.56.4
+PING 192.168.56.4 (192.168.56.4) 56(84) bytes of data.
+64 bytes from 192.168.56.4: icmp_seq=1 ttl=64 time=0.724 ms
+64 bytes from 192.168.56.4: icmp_seq=2 ttl=64 time=0.655 ms
+64 bytes from 192.168.56.4: icmp_seq=3 ttl=64 time=0.739 ms
+
+--- 192.168.56.4 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2029ms
+rtt min/avg/max/mdev = 0.655/0.706/0.739/0.036 ms
+vagrant@testclient2:~$ ping -c 3 192.168.56.5
+PING 192.168.56.5 (192.168.56.5) 56(84) bytes of data.
+64 bytes from 192.168.56.5: icmp_seq=1 ttl=64 time=1.39 ms
+64 bytes from 192.168.56.5: icmp_seq=2 ttl=64 time=0.746 ms
+64 bytes from 192.168.56.5: icmp_seq=3 ttl=64 time=0.750 ms
+
+--- 192.168.56.5 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2016ms
+rtt min/avg/max/mdev = 0.746/0.962/1.391/0.303 ms
+vagrant@testclient2:~$ ip -d link show type vlan
+vagrant@testclient2:~$ exit
+logout
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2> vagrant ssh testserver2
+Welcome to Ubuntu 22.04.2 LTS (GNU/Linux 5.15.0-71-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat Nov 21 13:01:19 UTC 2026
+
+  System load:             0.0
+  Usage of /:              4.7% of 38.70GB
+  Memory usage:            12%
+  Swap usage:              0%
+  Processes:               103
+  Users logged in:         0
+  IPv4 address for enp0s3: 10.0.2.15
+  IPv6 address for enp0s3: fd17:625c:f037:2:44:a4ff:fe14:4581
+  IPv4 address for enp0s8: 192.168.56.5
+  IPv4 address for enp0s9: 192.168.67.10
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+313 updates can be applied immediately.
+233 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+1 additional security update can be applied with ESM Apps.
+Learn more about enabling ESM Apps service at https://ubuntu.com/esm
+
+New release '24.04.5 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+vagrant@testserver2:~$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+enp0s3           UP             10.0.2.15/24 metric 100 fd17:625c:f037:2:44:a4ff:fe14:4581/64 fe80::44:a4ff:fe14:4581/64
+enp0s8           UP             192.168.56.5/24 fe80::a00:27ff:fe4e:e0eb/64
+enp0s9           UP             192.168.67.10/24 fe80::a00:27ff:feeb:30bc/64
+vagrant@testserver2:~$ ping -c 3 192.168.56.2
+PING 192.168.56.2 (192.168.56.2) 56(84) bytes of data.
+64 bytes from 192.168.56.2: icmp_seq=1 ttl=64 time=1.11 ms
+64 bytes from 192.168.56.2: icmp_seq=2 ttl=64 time=0.534 ms
+64 bytes from 192.168.56.2: icmp_seq=3 ttl=64 time=0.818 ms
+
+--- 192.168.56.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2025ms
+rtt min/avg/max/mdev = 0.534/0.821/1.113/0.236 ms
+vagrant@testserver2:~$ ping -c 3 192.168.56.3
+PING 192.168.56.3 (192.168.56.3) 56(84) bytes of data.
+64 bytes from 192.168.56.3: icmp_seq=1 ttl=64 time=0.772 ms
+64 bytes from 192.168.56.3: icmp_seq=2 ttl=64 time=1.48 ms
+64 bytes from 192.168.56.3: icmp_seq=3 ttl=64 time=0.920 ms
+
+--- 192.168.56.3 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 0.772/1.056/1.477/0.303 ms
+vagrant@testserver2:~$ ping -c 3 192.168.56.4
+PING 192.168.56.4 (192.168.56.4) 56(84) bytes of data.
+64 bytes from 192.168.56.4: icmp_seq=1 ttl=64 time=0.758 ms
+64 bytes from 192.168.56.4: icmp_seq=2 ttl=64 time=0.742 ms
+64 bytes from 192.168.56.4: icmp_seq=3 ttl=64 time=0.886 ms
+
+--- 192.168.56.4 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 0.742/0.795/0.886/0.064 ms
+vagrant@testserver2:~$ ip -d link show type vlan
+vagrant@testserver2:~$ exit
+logout
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2>
 
 ##########################
 ##                      ##
