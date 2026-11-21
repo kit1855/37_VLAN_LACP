@@ -1115,9 +1115,161 @@ vagrant@testserver2:~$ exit
 logout
 PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2>
 
-##########################
-##                      ##
-##   настройка VLAN 1   ##
-##                      ##
-##########################
+########################
+##                    ##
+##   настройка VLAN   ##
+##                    ##
+########################
 
+# у меня заглючил повершел и уничтожил строки до того, как я успел их скопировать
+# осталась только строка выхода из ВМ
+# по этому привожу историю команд по настойке влан на тестклиент1
+# и привожу результат работы, чтоб показать, что влан есть
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2> vagrant ssh testclient1
+Last login: Sat Nov 21 15:40:16 2026 from 10.0.2.2
+[vagrant@testclient1 ~]$ history
+    1  ip -br a
+    2  ping 192.168.56.3
+    3  ping -c 3 192.168.56.4
+    4  ping -c 3 192.168.56.5
+    5  ip -d link show type vlan
+    6  exit
+    7  sudo nmcli connection add type vlan con-name vlan1 ifname eth1.1 dev eth1 id 1 ipv4.method manual ipv4.addresses 10.10.10.254/24
+    8  sudo nmcli connection up vlan1
+    9  ip -d link show eth1.1
+   10  exit
+   11  history
+[vagrant@testclient1 ~]$ sudo nmcli connection up vlan1
+Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/9)
+[vagrant@testclient1 ~]$ ip -d link show type vlan
+5: eth1.1@eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
+    link/ether 08:00:27:6d:1a:14 brd ff:ff:ff:ff:ff:ff promiscuity 0  allmulti 0 minmtu 0 maxmtu 65535
+    vlan protocol 802.1Q id 1 <REORDER_HDR> addrgenmode none numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 tso_max_size 65536 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536
+[vagrant@testclient1 ~]$
+
+# только строка с командой выхода с ВМ сохранилась.
+[vagrant@testclient1 ~]$ exit
+logout
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2> vagrant ssh testserver1
+Last login: Sat Nov 21 12:57:25 2026 from 10.0.2.2
+[vagrant@testserver1 ~]$ sudo nmcli connection add type vlan con-name vlan1 ifname eth1.1 dev eth1 id 1 ipv4.method manual ipv4.addresses 10.10.10.1/24
+Connection 'vlan1' (15c805e3-8b3e-43ab-99ee-aa01f55aa68d) successfully added.
+[vagrant@testserver1 ~]$ sudo nmcli connection up vlan1
+Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/8)
+[vagrant@testserver1 ~]$ ip -d link show eth1.1
+5: eth1.1@eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
+    link/ether 08:00:27:c3:4b:ee brd ff:ff:ff:ff:ff:ff promiscuity 0  allmulti 0 minmtu 0 maxmtu 65535
+    vlan protocol 802.1Q id 1 <REORDER_HDR> addrgenmode none numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 tso_max_size 65536 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536
+[vagrant@testserver1 ~]$ exit
+logout
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2> vagrant ssh testclient2
+Welcome to Ubuntu 22.04.2 LTS (GNU/Linux 5.15.0-71-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat Nov 21 15:58:06 UTC 2026
+
+  System load:             0.005859375
+  Usage of /:              4.7% of 38.70GB
+  Memory usage:            12%
+  Swap usage:              0%
+  Processes:               103
+  Users logged in:         0
+  IPv4 address for enp0s3: 10.0.2.15
+  IPv6 address for enp0s3: fd17:625c:f037:2:44:a4ff:fe14:4581
+  IPv4 address for enp0s8: 192.168.56.3
+  IPv4 address for enp0s9: 192.168.65.10
+
+ * Canonical Workshop gives developers fast, composable, reproducible, and
+   secure developer environments that are perfect for agentic workflows.
+
+   https://ubuntu.com/workshop
+
+Expanded Security Maintenance for Applications is not enabled.
+313 updates can be applied immediately.
+233 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+1 additional security update can be applied with ESM Apps.
+Learn more about enabling ESM Apps service at https://ubuntu.com/esm
+
+New release '24.04.5 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Sat Nov 21 12:59:51 2026 from 10.0.2.2
+vagrant@testclient2:~$ sudo cp /vagrant/99-vlan-client2.yaml /etc/netplan/99-vlan.yaml
+vagrant@testclient2:~$ sudo netplan apply
+vagrant@testclient2:~$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+enp0s3           UP             10.0.2.15/24 metric 100 fd17:625c:f037:2:44:a4ff:fe14:4581/64 fe80::44:a4ff:fe14:4581/64
+enp0s8           UP             192.168.56.3/24 fe80::a00:27ff:fe64:53e4/64
+enp0s9           UP             192.168.65.10/24 fe80::a00:27ff:fef5:671a/64
+eth1.2@enp0s8    UP             10.10.10.254/24 fe80::a00:27ff:fe64:53e4/64
+vagrant@testclient2:~$ ip -d link show type vlan
+5: eth1.2@enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
+    link/ether 08:00:27:64:53:e4 brd ff:ff:ff:ff:ff:ff promiscuity 0 minmtu 0 maxmtu 65535
+    vlan protocol 802.1Q id 2 <REORDER_HDR> addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535
+vagrant@testclient2:~$ exit
+logout
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2> vagrant ssh testserver2
+Welcome to Ubuntu 22.04.2 LTS (GNU/Linux 5.15.0-71-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat Nov 21 16:00:04 UTC 2026
+
+  System load:             0.0
+  Usage of /:              4.7% of 38.70GB
+  Memory usage:            12%
+  Swap usage:              0%
+  Processes:               101
+  Users logged in:         0
+  IPv4 address for enp0s3: 10.0.2.15
+  IPv6 address for enp0s3: fd17:625c:f037:2:44:a4ff:fe14:4581
+  IPv4 address for enp0s8: 192.168.56.5
+  IPv4 address for enp0s9: 192.168.67.10
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+313 updates can be applied immediately.
+233 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+1 additional security update can be applied with ESM Apps.
+Learn more about enabling ESM Apps service at https://ubuntu.com/esm
+
+New release '24.04.5 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Sat Nov 21 13:01:20 2026 from 10.0.2.2
+vagrant@testserver2:~$ sudo cp /vagrant/99-vlan-server2.yaml /etc/netplan/99-vlan.yaml
+vagrant@testserver2:~$ sudo netplan apply
+vagrant@testserver2:~$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+enp0s3           UP             10.0.2.15/24 metric 100 fd17:625c:f037:2:44:a4ff:fe14:4581/64 fe80::44:a4ff:fe14:4581/64
+enp0s8           UP             192.168.56.5/24 fe80::a00:27ff:fe4e:e0eb/64
+enp0s9           UP             192.168.67.10/24 fe80::a00:27ff:feeb:30bc/64
+eth1.2@enp0s8    UP             10.10.10.1/24 fe80::a00:27ff:fe4e:e0eb/64
+vagrant@testserver2:~$ ip -d link show type vlan
+5: eth1.2@enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
+    link/ether 08:00:27:4e:e0:eb brd ff:ff:ff:ff:ff:ff promiscuity 0 minmtu 0 maxmtu 65535
+    vlan protocol 802.1Q id 2 <REORDER_HDR> addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535
+vagrant@testserver2:~$ exit
+logout
+PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2>
+
+#######################
+##                   ##
+##   проверка VLAN   ##
+##                   ##
+#######################
+
+# при настройке влана проводил проверки что вланы уже есть
+# сейчас проверю пингом, что ВМ могут видеть только те ВМ, которые входят в их ВЛАН
