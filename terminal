@@ -1162,6 +1162,11 @@ Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkMa
     vlan protocol 802.1Q id 1 <REORDER_HDR> addrgenmode none numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 tso_max_size 65536 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536
 [vagrant@testserver1 ~]$ exit
 logout
+
+# настройка ВЛАН2 на ВМ на базе убунту отличается от настройки ВЛАН1 на альмалинукс
+# тут настройка производится при помощи нетплан - копирую заранее созданные 
+# конфигурационные файлы нетплана в директорию /etc/netplan, применяю конфигурацию нетплана
+# проверяю что интерфейс создался, поднялся и что он принадлежит ВЛАН2
 PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2> vagrant ssh testclient2
 Welcome to Ubuntu 22.04.2 LTS (GNU/Linux 5.15.0-71-generic x86_64)
 
