@@ -1375,8 +1375,110 @@ listening on eth1.2, link-type EN10MB (Ethernet), snapshot length 262144 bytes
 ##                    ##
 ########################
 
+# в альмалинукс сеть настраивает networkmanager. Вагрант создал интерфейсы eth1, eth2 и т.д.
+# далее на них были созданы профили, например System eth1 и активировал эти профили на интерфейсах
+# При создании Бонд неполучится использовать занятые профилями интерфейсы. По этому сначала нужно
+# деактивировать старый профиль на интерфейсах. Т.к. интерфейс без профиля не может оставаться,
+# то networkmanager автоматически назначит профиль на пустующий интерфейс
+# повторное удаление профиля с интерфейса даст понять networkmanager что этот интерфейс
+# нужно оставить в покое и не назначать ему профиль.
+
+[vagrant@inetRouter ~]$ nmcli connection show
+NAME                UUID                                  TYPE      DEVICE
+eth0                2eeb2138-dc81-4c4d-8dbe-6a2bc96dff59  ethernet  eth0
+System eth1         9c92fad9-6ecb-3e6c-eb4d-8a47c6f50c04  ethernet  eth1
+System eth2         3a73717e-65ab-93e8-b518-24f5af32dc0d  ethernet  eth2
+System eth3         c5ca8081-6db2-4602-4b46-d771f4330a6d  ethernet  eth3
+lo                  0eca663d-bf0c-44ff-854c-b9e1bd716d6d  loopback  lo
+Wired connection 1  62a464b7-f3bd-3256-8286-2b8a4072ed3a  ethernet  --
+Wired connection 2  8d42679a-7aaf-3178-9eba-61958eef5cfb  ethernet  --
+Wired connection 3  94f6b12a-0b31-3e80-a897-94fca7876f42  ethernet  --
+[vagrant@inetRouter ~]$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             10.0.2.15/24 fd17:625c:f037:2:a00:27ff:fe0d:f5f0/64 fe80::a00:27ff:fe0d:f5f0/64
+eth1             UP             192.168.255.1/30 fe80::a00:27ff:fe64:9e72/64
+eth2             UP             192.168.61.10/24 fe80::a00:27ff:fe43:f498/64
+eth3             UP             192.168.255.5/30 fe80::a00:27ff:feae:cdac/64
+[vagrant@inetRouter ~]$ sudo nmcli connection down "System eth1"
+Connection 'System eth1' successfully deactivated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/6)
+[vagrant@inetRouter ~]$ sudo nmcli connection down "System eth3"
+Connection 'System eth3' successfully deactivated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/7)
+[vagrant@inetRouter ~]$
+[vagrant@inetRouter ~]$
+[vagrant@inetRouter ~]$
+[vagrant@inetRouter ~]$ nmcli connection show
+NAME                UUID                                  TYPE      DEVICE
+eth0                2eeb2138-dc81-4c4d-8dbe-6a2bc96dff59  ethernet  eth0
+System eth2         3a73717e-65ab-93e8-b518-24f5af32dc0d  ethernet  eth2
+Wired connection 1  62a464b7-f3bd-3256-8286-2b8a4072ed3a  ethernet  eth1
+Wired connection 3  94f6b12a-0b31-3e80-a897-94fca7876f42  ethernet  eth3
+lo                  0eca663d-bf0c-44ff-854c-b9e1bd716d6d  loopback  lo
+System eth1         9c92fad9-6ecb-3e6c-eb4d-8a47c6f50c04  ethernet  --
+System eth3         c5ca8081-6db2-4602-4b46-d771f4330a6d  ethernet  --
+Wired connection 2  8d42679a-7aaf-3178-9eba-61958eef5cfb  ethernet  --
+[vagrant@inetRouter ~]$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             10.0.2.15/24 fd17:625c:f037:2:a00:27ff:fe0d:f5f0/64 fe80::a00:27ff:fe0d:f5f0/64
+eth1             UP             fe80::686d:21d5:f0d7:7fc4/64
+eth2             UP             192.168.61.10/24 fe80::a00:27ff:fe43:f498/64
+eth3             UP             fe80::39b5:9ed6:a2c2:32d9/64
+[vagrant@inetRouter ~]$
+[vagrant@inetRouter ~]$
+[vagrant@inetRouter ~]$
+[vagrant@inetRouter ~]$ sudo nmcli connection down "Wired connection 1"
+Connection 'Wired connection 1' successfully deactivated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/14)
+[vagrant@inetRouter ~]$ sudo nmcli connection down "Wired connection 3"
+Connection 'Wired connection 3' successfully deactivated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/15)
+[vagrant@inetRouter ~]$ nmcli connection show
+NAME                UUID                                  TYPE      DEVICE
+eth0                2eeb2138-dc81-4c4d-8dbe-6a2bc96dff59  ethernet  eth0
+System eth2         3a73717e-65ab-93e8-b518-24f5af32dc0d  ethernet  eth2
+lo                  0eca663d-bf0c-44ff-854c-b9e1bd716d6d  loopback  lo
+System eth1         9c92fad9-6ecb-3e6c-eb4d-8a47c6f50c04  ethernet  --
+System eth3         c5ca8081-6db2-4602-4b46-d771f4330a6d  ethernet  --
+Wired connection 1  62a464b7-f3bd-3256-8286-2b8a4072ed3a  ethernet  --
+Wired connection 2  8d42679a-7aaf-3178-9eba-61958eef5cfb  ethernet  --
+Wired connection 3  94f6b12a-0b31-3e80-a897-94fca7876f42  ethernet  --
+[vagrant@inetRouter ~]$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             10.0.2.15/24 fd17:625c:f037:2:a00:27ff:fe0d:f5f0/64 fe80::a00:27ff:fe0d:f5f0/64
+eth1             UP
+eth2             UP             192.168.61.10/24 fe80::a00:27ff:fe43:f498/64
+eth3             UP
+[vagrant@inetRouter ~]$
+
+
+
+
+
+
+
+
 #######################
 ##                   ##
 ##   проверка Bond   ##
 ##                   ##
 #######################
+
+[vagrant@inetRouter ~]$ cat /proc/net/bonding/bond0
+Ethernet Channel Bonding Driver: v5.14.0-503.15.1.el9_5.x86_64
+
+Bonding Mode: fault-tolerance (active-backup)
+Primary Slave: None
+Currently Active Slave: None
+MII Status: down
+MII Polling Interval (ms): 100
+Up Delay (ms): 0
+Down Delay (ms): 0
+Peer Notification Delay (ms): 0
+[vagrant@inetRouter ~]$ ping -c 4 192.168.255.2
+PING 192.168.255.2 (192.168.255.2) 56(84) bytes of data.
+64 bytes from 192.168.255.2: icmp_seq=1 ttl=64 time=5.73 ms
+64 bytes from 192.168.255.2: icmp_seq=2 ttl=64 time=0.752 ms
+64 bytes from 192.168.255.2: icmp_seq=3 ttl=64 time=0.879 ms
+64 bytes from 192.168.255.2: icmp_seq=4 ttl=64 time=0.836 ms
+
+--- 192.168.255.2 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 2999ms
+rtt min/avg/max/mdev = 0.752/2.048/5.725/2.123 ms
+[vagrant@inetRouter ~]$
