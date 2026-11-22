@@ -894,11 +894,11 @@ Bringing machine 'testserver2' up with 'virtualbox' provider...
     testserver2: No VM guests are running outdated hypervisor (qemu) binaries on this host.
 PS D:\linux\Professional\37 Сетевые пакеты. VLAN'ы. LACP\dz2>
 
-#########################
-##                     ##
-##   проверка стенда   ##
-##                     ##
-#########################
+################################################################
+##                                                            ##
+##   проверка ВМ из сети 192.168.56.0/24 для настройки VLAN   ##
+##                                                            ##
+################################################################
 
 # проверка что testclient1, testserver1, testclient2 и testserver2 видят друг друга по сети.
 # т.е. разделения на вланы нет, вланов тоже нет.
