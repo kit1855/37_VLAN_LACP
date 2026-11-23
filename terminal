@@ -1383,6 +1383,7 @@ listening on eth1.2, link-type EN10MB (Ethernet), snapshot length 262144 bytes
 # повторное удаление профиля с интерфейса даст понять networkmanager что этот интерфейс
 # нужно оставить в покое и не назначать ему профиль.
 
+# очистка интерфейсов на ВМ инетРоутер
 [vagrant@inetRouter ~]$ nmcli connection show
 NAME                UUID                                  TYPE      DEVICE
 eth0                2eeb2138-dc81-4c4d-8dbe-6a2bc96dff59  ethernet  eth0
@@ -1447,12 +1448,196 @@ eth2             UP             192.168.61.10/24 fe80::a00:27ff:fe43:f498/64
 eth3             UP
 [vagrant@inetRouter ~]$
 
+# очистка интерфейсов на ВМ централРоутер
+[vagrant@centralRouter ~]$ nmcli connection show
+NAME                UUID                                  TYPE      DEVICE
+System eth1         9c92fad9-6ecb-3e6c-eb4d-8a47c6f50c04  ethernet  eth1
+eth0                2eeb2138-dc81-4c4d-8dbe-6a2bc96dff59  ethernet  eth0
+System eth2         3a73717e-65ab-93e8-b518-24f5af32dc0d  ethernet  eth2
+System eth3         c5ca8081-6db2-4602-4b46-d771f4330a6d  ethernet  eth3
+System eth4         84d43311-57c8-8986-f205-9c78cd6ef5d2  ethernet  eth4
+lo                  39f86514-28ab-4f2c-947c-4d8a7e1767cc  loopback  lo
+Wired connection 1  6e627c72-6569-34b0-a54d-e182f6817d76  ethernet  --
+Wired connection 2  8e34ed83-72b3-38c2-aac3-ba09f88eed35  ethernet  --
+Wired connection 3  736217e4-13bf-38e5-90ff-4a8cc8c9a2a7  ethernet  --
+Wired connection 4  59c62dc7-312e-3267-bf2e-e53bf07bd784  ethernet  --
+[vagrant@centralRouter ~]$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             10.0.2.15/24 fd17:625c:f037:2:a00:27ff:fe0d:f5f0/64 fe80::a00:27ff:fe0d:f5f0/64
+eth1             UP             192.168.255.2/30 fe80::a00:27ff:fe4f:8848/64
+eth2             UP             192.168.62.10/24 fe80::a00:27ff:fe46:ff8/64
+eth3             UP             192.168.255.9/30 fe80::a00:27ff:fef0:45c2/64
+eth4             UP             192.168.255.6/30 fe80::a00:27ff:fe08:d7c2/64
+[vagrant@centralRouter ~]$
+[vagrant@centralRouter ~]$
+[vagrant@centralRouter ~]$ sudo nmcli connection down "System eth1"
+Connection 'System eth1' successfully deactivated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/8)
+[vagrant@centralRouter ~]$ sudo nmcli connection down "System eth4"
+Connection 'System eth4' successfully deactivated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/11)
+[vagrant@centralRouter ~]$ nmcli connection show
+NAME                UUID                                  TYPE      DEVICE
+eth0                2eeb2138-dc81-4c4d-8dbe-6a2bc96dff59  ethernet  eth0
+System eth2         3a73717e-65ab-93e8-b518-24f5af32dc0d  ethernet  eth2
+System eth3         c5ca8081-6db2-4602-4b46-d771f4330a6d  ethernet  eth3
+Wired connection 1  6e627c72-6569-34b0-a54d-e182f6817d76  ethernet  eth1
+Wired connection 4  59c62dc7-312e-3267-bf2e-e53bf07bd784  ethernet  eth4
+lo                  39f86514-28ab-4f2c-947c-4d8a7e1767cc  loopback  lo
+System eth1         9c92fad9-6ecb-3e6c-eb4d-8a47c6f50c04  ethernet  --
+System eth4         84d43311-57c8-8986-f205-9c78cd6ef5d2  ethernet  --
+Wired connection 2  8e34ed83-72b3-38c2-aac3-ba09f88eed35  ethernet  --
+Wired connection 3  736217e4-13bf-38e5-90ff-4a8cc8c9a2a7  ethernet  --
+[vagrant@centralRouter ~]$ sudo nmcli connection down "Wired connection 1"
+Connection 'Wired connection 1' successfully deactivated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/14)
+[vagrant@centralRouter ~]$ sudo nmcli connection down "Wired connection 4"
+Connection 'Wired connection 4' successfully deactivated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/13)
+[vagrant@centralRouter ~]$
+[vagrant@centralRouter ~]$
+[vagrant@centralRouter ~]$ nmcli connection show
+NAME                UUID                                  TYPE      DEVICE
+eth0                2eeb2138-dc81-4c4d-8dbe-6a2bc96dff59  ethernet  eth0
+System eth2         3a73717e-65ab-93e8-b518-24f5af32dc0d  ethernet  eth2
+System eth3         c5ca8081-6db2-4602-4b46-d771f4330a6d  ethernet  eth3
+lo                  39f86514-28ab-4f2c-947c-4d8a7e1767cc  loopback  lo
+System eth1         9c92fad9-6ecb-3e6c-eb4d-8a47c6f50c04  ethernet  --
+System eth4         84d43311-57c8-8986-f205-9c78cd6ef5d2  ethernet  --
+Wired connection 1  6e627c72-6569-34b0-a54d-e182f6817d76  ethernet  --
+Wired connection 2  8e34ed83-72b3-38c2-aac3-ba09f88eed35  ethernet  --
+Wired connection 3  736217e4-13bf-38e5-90ff-4a8cc8c9a2a7  ethernet  --
+Wired connection 4  59c62dc7-312e-3267-bf2e-e53bf07bd784  ethernet  --
+[vagrant@centralRouter ~]$
 
+# настройка БОНД на ВМ инетРоутер
+[vagrant@inetRouter ~]$ sudo nmcli connection add type bond con-name bond0 ifname bond0 bond.options "mode=802.3ad,miimon=100,lacp_rate=fast"
+Connection 'bond0' (3257611d-5ea9-4546-9a54-5f0a34fd8ff8) successfully added.
+[vagrant@inetRouter ~]$ sudo nmcli connection add type ethernet con-name bond0-slave1 ifname eth1 master bond0
+Connection 'bond0-slave1' (02f44a73-cd3a-4e24-8150-ad0805ee4a37) successfully added.
+[vagrant@inetRouter ~]$ sudo nmcli connection add type ethernet con-name bond0-slave2 ifname eth3 master bond0
+Connection 'bond0-slave2' (62c0a482-356a-49bc-aa29-627e38bc2044) successfully added.
+[vagrant@inetRouter ~]$ sudo nmcli connection add type ethernet con-name bond0-slave2 ifname eth3 master bond0
+Warning: There is another connection with the name 'bond0-slave2'. Reference the connection by its uuid 'cb6ef4bb-f040-4155-b289-2b7e6d48c1ab'
+Connection 'bond0-slave2' (cb6ef4bb-f040-4155-b289-2b7e6d48c1ab) successfully added.
+[vagrant@inetRouter ~]$ sudo nmcli connection modify bond0 ipv4.addresses 192.168.255.1/30 ipv4.method manual
+[vagrant@inetRouter ~]$ sudo nmcli connection up bond0
+Connection successfully activated (controller waiting for ports) (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/19)
+[vagrant@inetRouter ~]$
+[vagrant@inetRouter ~]$
+[vagrant@inetRouter ~]$
+[vagrant@inetRouter ~]$
+[vagrant@inetRouter ~]$ cat /proc/net/bonding/bond0
+Ethernet Channel Bonding Driver: v5.14.0-503.15.1.el9_5.x86_64
 
+Bonding Mode: IEEE 802.3ad Dynamic link aggregation
+Transmit Hash Policy: layer2 (0)
+MII Status: up
+MII Polling Interval (ms): 100
+Up Delay (ms): 0
+Down Delay (ms): 0
+Peer Notification Delay (ms): 0
 
+802.3ad info
+LACP active: on
+LACP rate: fast
+Min links: 0
+Aggregator selection policy (ad_select): stable
 
+Slave Interface: eth1
+MII Status: up
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 08:00:27:64:9e:72
+Slave queue ID: 0
+Aggregator ID: 1
+Actor Churn State: monitoring
+Partner Churn State: monitoring
+Actor Churned Count: 0
+Partner Churned Count: 0
 
+Slave Interface: eth3
+MII Status: up
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 08:00:27:ae:cd:ac
+Slave queue ID: 0
+Aggregator ID: 2
+Actor Churn State: monitoring
+Partner Churn State: monitoring
+Actor Churned Count: 0
+Partner Churned Count: 0
+[vagrant@inetRouter ~]$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             10.0.2.15/24 fd17:625c:f037:2:a00:27ff:fe0d:f5f0/64 fe80::a00:27ff:fe0d:f5f0/64
+eth1             UP
+eth2             UP             192.168.61.10/24 fe80::a00:27ff:fe43:f498/64
+eth3             UP
+bond0            UP             192.168.255.1/30 fe80::82bd:d2e9:1256:9f60/64
+[vagrant@inetRouter ~]$
 
+# настройка БОНД на ВМ централРоутер
+[vagrant@centralRouter ~]$ sudo nmcli connection add type bond con-name bond0 ifname bond0 bond.options "mode=802.3ad,miimon=100,lacp_rate=fast"
+Connection 'bond0' (dc1f3789-5f08-467b-a5bb-81a9e5c6d18a) successfully added.
+[vagrant@centralRouter ~]$ sudo nmcli connection add type ethernet con-name bond0-slave1 ifname eth1 master bond0
+Connection 'bond0-slave1' (2a4da38c-c12a-4d9d-92dd-4364686dfb11) successfully added.
+[vagrant@centralRouter ~]$ sudo nmcli connection add type ethernet con-name bond0-slave2 ifname eth4 master bond0
+Connection 'bond0-slave2' (afe6088e-1e6c-403d-9d79-14236484acb1) successfully added.
+[vagrant@centralRouter ~]$ sudo nmcli connection modify bond0 ipv4.addresses 192.168.255.2/30 ipv4.method manual
+[vagrant@centralRouter ~]$ sudo nmcli connection up bond0
+Connection successfully activated (controller waiting for ports) (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/18)
+[vagrant@centralRouter ~]$
+[vagrant@centralRouter ~]$
+[vagrant@centralRouter ~]$
+[vagrant@centralRouter ~]$ cat /proc/net/bonding/bond0
+Ethernet Channel Bonding Driver: v5.14.0-503.15.1.el9_5.x86_64
+
+Bonding Mode: IEEE 802.3ad Dynamic link aggregation
+Transmit Hash Policy: layer2 (0)
+MII Status: up
+MII Polling Interval (ms): 100
+Up Delay (ms): 0
+Down Delay (ms): 0
+Peer Notification Delay (ms): 0
+
+802.3ad info
+LACP active: on
+LACP rate: fast
+Min links: 0
+Aggregator selection policy (ad_select): stable
+
+Slave Interface: eth1
+MII Status: up
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 08:00:27:4f:88:48
+Slave queue ID: 0
+Aggregator ID: 1
+Actor Churn State: monitoring
+Partner Churn State: monitoring
+Actor Churned Count: 0
+Partner Churned Count: 0
+
+Slave Interface: eth4
+MII Status: up
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 08:00:27:08:d7:c2
+Slave queue ID: 0
+Aggregator ID: 1
+Actor Churn State: monitoring
+Partner Churn State: monitoring
+Actor Churned Count: 0
+Partner Churned Count: 0
+[vagrant@centralRouter ~]$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             10.0.2.15/24 fd17:625c:f037:2:a00:27ff:fe0d:f5f0/64 fe80::a00:27ff:fe0d:f5f0/64
+eth1             UP
+eth2             UP             192.168.62.10/24 fe80::a00:27ff:fe46:ff8/64
+eth3             UP             192.168.255.9/30 fe80::a00:27ff:fef0:45c2/64
+eth4             UP
+bond0            UP             192.168.255.2/30 fe80::b4be:a4ee:180c:239b/64
+[vagrant@centralRouter ~]$
 
 #######################
 ##                   ##
@@ -1460,25 +1645,82 @@ eth3             UP
 ##                   ##
 #######################
 
-[vagrant@inetRouter ~]$ cat /proc/net/bonding/bond0
-Ethernet Channel Bonding Driver: v5.14.0-503.15.1.el9_5.x86_64
-
-Bonding Mode: fault-tolerance (active-backup)
-Primary Slave: None
-Currently Active Slave: None
-MII Status: down
-MII Polling Interval (ms): 100
-Up Delay (ms): 0
-Down Delay (ms): 0
-Peer Notification Delay (ms): 0
 [vagrant@inetRouter ~]$ ping -c 4 192.168.255.2
 PING 192.168.255.2 (192.168.255.2) 56(84) bytes of data.
-64 bytes from 192.168.255.2: icmp_seq=1 ttl=64 time=5.73 ms
-64 bytes from 192.168.255.2: icmp_seq=2 ttl=64 time=0.752 ms
-64 bytes from 192.168.255.2: icmp_seq=3 ttl=64 time=0.879 ms
-64 bytes from 192.168.255.2: icmp_seq=4 ttl=64 time=0.836 ms
+64 bytes from 192.168.255.2: icmp_seq=1 ttl=64 time=5.81 ms
+64 bytes from 192.168.255.2: icmp_seq=2 ttl=64 time=1.02 ms
+64 bytes from 192.168.255.2: icmp_seq=3 ttl=64 time=3.24 ms
+64 bytes from 192.168.255.2: icmp_seq=4 ttl=64 time=2.53 ms
 
 --- 192.168.255.2 ping statistics ---
-4 packets transmitted, 4 received, 0% packet loss, time 2999ms
-rtt min/avg/max/mdev = 0.752/2.048/5.725/2.123 ms
+4 packets transmitted, 4 received, 0% packet loss, time 3008ms
+rtt min/avg/max/mdev = 1.015/3.150/5.813/1.734 ms
 [vagrant@inetRouter ~]$
+
+[vagrant@centralRouter ~]$ ping -c 4 192.168.255.1
+PING 192.168.255.1 (192.168.255.1) 56(84) bytes of data.
+64 bytes from 192.168.255.1: icmp_seq=1 ttl=64 time=4.11 ms
+64 bytes from 192.168.255.1: icmp_seq=2 ttl=64 time=2.90 ms
+64 bytes from 192.168.255.1: icmp_seq=3 ttl=64 time=3.04 ms
+64 bytes from 192.168.255.1: icmp_seq=4 ttl=64 time=0.898 ms
+
+--- 192.168.255.1 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3006ms
+rtt min/avg/max/mdev = 0.898/2.736/4.108/1.159 ms
+[vagrant@centralRouter ~]$
+
+# на интерфейсах растут счетчики трафика на интерфейсах за счет служебного трафика LACP
+[vagrant@centralRouter ~]$ ip -s link show eth1
+3: eth1: <BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP> mtu 1500 qdisc fq_codel master bond0 state UP mode DEFAULT group default qlen 1000
+    link/ether 08:00:27:4f:88:48 brd ff:ff:ff:ff:ff:ff
+    RX:  bytes packets errors dropped  missed   mcast
+         57342     438      0       0       0     362
+    TX:  bytes packets errors dropped carrier collsns
+         63420     546      0       0       0       0
+    altname enp0s8
+[vagrant@centralRouter ~]$ ip -s link show eth4
+6: eth4: <BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP> mtu 1500 qdisc fq_codel master bond0 state UP mode DEFAULT group default qlen 1000
+    link/ether 08:00:27:4f:88:48 brd ff:ff:ff:ff:ff:ff permaddr 08:00:27:08:d7:c2
+    RX:  bytes packets errors dropped  missed   mcast
+         51034     380      0       0       0     359
+    TX:  bytes packets errors dropped carrier collsns
+         52376     421      0       0       0       0
+    altname enp0s16
+[vagrant@centralRouter ~]$
+[vagrant@centralRouter ~]$ ip -s link show eth1
+3: eth1: <BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP> mtu 1500 qdisc fq_codel master bond0 state UP mode DEFAULT group default qlen 1000
+    link/ether 08:00:27:4f:88:48 brd ff:ff:ff:ff:ff:ff
+    RX:  bytes packets errors dropped  missed   mcast
+        235530    1875      0       0       0    1798
+    TX:  bytes packets errors dropped carrier collsns
+        243220    1996      0       0       0       0
+    altname enp0s8
+[vagrant@centralRouter ~]$ ip -s link show eth4
+6: eth4: <BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP> mtu 1500 qdisc fq_codel master bond0 state UP mode DEFAULT group default qlen 1000
+    link/ether 08:00:27:4f:88:48 brd ff:ff:ff:ff:ff:ff permaddr 08:00:27:08:d7:c2
+    RX:  bytes packets errors dropped  missed   mcast
+        229098    1816      0       0       0    1794
+    TX:  bytes packets errors dropped carrier collsns
+        232362    1874      0       0       0       0
+    altname enp0s16
+[vagrant@centralRouter ~]$
+[vagrant@centralRouter ~]$
+[vagrant@centralRouter ~]$
+[vagrant@centralRouter ~]$ ip -s link show eth1
+3: eth1: <BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP> mtu 1500 qdisc fq_codel master bond0 state UP mode DEFAULT group default qlen 1000
+    link/ether 08:00:27:4f:88:48 brd ff:ff:ff:ff:ff:ff
+    RX:  bytes packets errors dropped  missed   mcast
+        242102    1928      0       0       0    1850
+    TX:  bytes packets errors dropped carrier collsns
+        249792    2049      0       0       0       0
+    altname enp0s8
+[vagrant@centralRouter ~]$ ip -s link show eth4
+6: eth4: <BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP> mtu 1500 qdisc fq_codel master bond0 state UP mode DEFAULT group default qlen 1000
+    link/ether 08:00:27:4f:88:48 brd ff:ff:ff:ff:ff:ff permaddr 08:00:27:08:d7:c2
+    RX:  bytes packets errors dropped  missed   mcast
+        235174    1865      0       0       0    1843
+    TX:  bytes packets errors dropped carrier collsns
+        238314    1922      0       0       0       0
+    altname enp0s16
+[vagrant@centralRouter ~]$
+
