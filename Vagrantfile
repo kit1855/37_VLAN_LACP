@@ -16,6 +16,8 @@ Vagrant.configure("2") do |config|
     inet.vm.provider "virtualbox" do |v|
       v.memory = 2048
       v.cpus = 2
+      v.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      v.customize ["modifyvm", :id, "--nicpromisc4", "allow-all"]
     end
 
     inet.vm.network "private_network", ip: "192.168.255.1", adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"
@@ -50,6 +52,8 @@ Vagrant.configure("2") do |config|
     central.vm.provider "virtualbox" do |v|
       v.memory = 2048
       v.cpus = 2
+      v.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+      v.customize ["modifyvm", :id, "--nicpromisc5", "allow-all"]
     end
     central.vm.network "private_network", ip: "192.168.255.2", adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"
     central.vm.network "private_network", ip: "192.168.62.10", adapter: 3, netmask: "255.255.255.0"
