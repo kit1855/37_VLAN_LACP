@@ -1645,6 +1645,7 @@ bond0            UP             192.168.255.2/30 fe80::b4be:a4ee:180c:239b/64
 ##                   ##
 #######################
 
+# пинги по Бонд проходят в обе стороны
 [vagrant@inetRouter ~]$ ping -c 4 192.168.255.2
 PING 192.168.255.2 (192.168.255.2) 56(84) bytes of data.
 64 bytes from 192.168.255.2: icmp_seq=1 ttl=64 time=5.81 ms
@@ -1669,7 +1670,7 @@ PING 192.168.255.1 (192.168.255.1) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.898/2.736/4.108/1.159 ms
 [vagrant@centralRouter ~]$
 
-# на интерфейсах растут счетчики трафика на интерфейсах за счет служебного трафика LACP
+# на интерфейсах растут счетчики трафика за счет служебного трафика LACP
 [vagrant@centralRouter ~]$ ip -s link show eth1
 3: eth1: <BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP> mtu 1500 qdisc fq_codel master bond0 state UP mode DEFAULT group default qlen 1000
     link/ether 08:00:27:4f:88:48 brd ff:ff:ff:ff:ff:ff
@@ -1724,3 +1725,140 @@ rtt min/avg/max/mdev = 0.898/2.736/4.108/1.159 ms
     altname enp0s16
 [vagrant@centralRouter ~]$
 
+# попытка проверить как переключится трафик если один из интерфейсов отключить ни к чему хорошему не приводит.
+# В двух окнах на ВМ централРоутер запустил tcpdump на разных интерфейсах - на eth1 и eth4.
+# запустил пинг с ВМ инетРоутер на ВМ централРоутер.
+# в одном окне стал получать информацию о полученных пакетах. После в третьем окне на ВМ централРоутер выключил
+# интерфейс, по которому шёл трафик и заметил, что трафик не переключился на другую линию, хотя по идее трафик
+# должен переключиться на другую линию, но вместо этого пинги перестали проходить и стал получать на ВМ инетРоутер
+# сообщения "From 192.168.255.1 icmp_seq=49 Destination Host Unreachable", т.е. узел назначения недоступен.
+# поиск решения проблемы привел к такому выводу, что в виртуалбокс есть некие проблемы с тем, чтоб эмулировать
+# бонд в полном объеме. Получается, что в каком-то виде бонд работает, но если сделать такой вот стресс-тест,
+# то он ломается. Повторял раза 2-3 примерно- результат один и тот же.
+
+# tcpdump на ВМ централРоутер на интерфейсе eth1
+[vagrant@centralRouter ~]$ date; sudo tcpdump -i eth1 -n icmp
+Mon Nov 23 08:50:46 PM UTC 2026
+dropped privs to tcpdump
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on eth1, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+20:51:43.805951 IP 192.168.255.1 > 192.168.255.2: ICMP echo request, id 3, seq 1, length 64
+20:51:43.807456 IP 192.168.255.2 > 192.168.255.1: ICMP echo reply, id 3, seq 1, length 64
+20:51:44.807793 IP 192.168.255.1 > 192.168.255.2: ICMP echo request, id 3, seq 2, length 64
+20:51:44.807832 IP 192.168.255.2 > 192.168.255.1: ICMP echo reply, id 3, seq 2, length 64
+20:51:45.810572 IP 192.168.255.1 > 192.168.255.2: ICMP echo request, id 3, seq 3, length 64
+20:51:45.810606 IP 192.168.255.2 > 192.168.255.1: ICMP echo reply, id 3, seq 3, length 64
+20:51:46.812965 IP 192.168.255.1 > 192.168.255.2: ICMP echo request, id 3, seq 4, length 64
+20:51:46.812999 IP 192.168.255.2 > 192.168.255.1: ICMP echo reply, id 3, seq 4, length 64
+20:51:47.814862 IP 192.168.255.1 > 192.168.255.2: ICMP echo request, id 3, seq 5, length 64
+20:51:47.814881 IP 192.168.255.2 > 192.168.255.1: ICMP echo reply, id 3, seq 5, length 64
+20:51:48.818344 IP 192.168.255.1 > 192.168.255.2: ICMP echo request, id 3, seq 6, length 64
+20:51:48.818389 IP 192.168.255.2 > 192.168.255.1: ICMP echo reply, id 3, seq 6, length 64
+20:51:49.821196 IP 192.168.255.1 > 192.168.255.2: ICMP echo request, id 3, seq 7, length 64
+20:51:49.821238 IP 192.168.255.2 > 192.168.255.1: ICMP echo reply, id 3, seq 7, length 64
+20:51:50.822310 IP 192.168.255.1 > 192.168.255.2: ICMP echo request, id 3, seq 8, length 64
+20:51:50.822343 IP 192.168.255.2 > 192.168.255.1: ICMP echo reply, id 3, seq 8, length 64
+20:51:51.824886 IP 192.168.255.1 > 192.168.255.2: ICMP echo request, id 3, seq 9, length 64
+20:51:51.824920 IP 192.168.255.2 > 192.168.255.1: ICMP echo reply, id 3, seq 9, length 64
+20:51:52.902833 IP 192.168.255.1 > 192.168.255.2: ICMP echo request, id 3, seq 10, length 64
+20:51:52.902926 IP 192.168.255.2 > 192.168.255.1: ICMP echo reply, id 3, seq 10, length 64
+20:51:53.906727 IP 192.168.255.1 > 192.168.255.2: ICMP echo request, id 3, seq 11, length 64
+20:51:53.906823 IP 192.168.255.2 > 192.168.255.1: ICMP echo reply, id 3, seq 11, length 64
+20:51:55.040604 IP 192.168.255.1 > 192.168.255.2: ICMP echo request, id 3, seq 12, length 64
+20:51:55.040641 IP 192.168.255.2 > 192.168.255.1: ICMP echo reply, id 3, seq 12, length 64
+20:51:56.043696 IP 192.168.255.1 > 192.168.255.2: ICMP echo request, id 3, seq 13, length 64
+20:51:56.043819 IP 192.168.255.2 > 192.168.255.1: ICMP echo reply, id 3, seq 13, length 64
+^C
+26 packets captured
+26 packets received by filter
+0 packets dropped by kernel
+[vagrant@centralRouter ~]$
+
+# tcpdump на ВМ централРоутер на интерфейсе eth4
+[vagrant@centralRouter ~]$ date; sudo tcpdump -i eth4 -n icmp
+Mon Nov 23 08:50:51 PM UTC 2026
+dropped privs to tcpdump
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on eth4, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+^C
+0 packets captured
+0 packets received by filter
+0 packets dropped by kernel
+[vagrant@centralRouter ~]$
+
+# пинг с ВМ инетРоутер на ВМ централРоуетр
+[vagrant@inetRouter ~]$ date; ping 192.168.255.2
+Mon Nov 23 08:51:43 PM UTC 2026
+PING 192.168.255.2 (192.168.255.2) 56(84) bytes of data.
+64 bytes from 192.168.255.2: icmp_seq=1 ttl=64 time=2.64 ms
+64 bytes from 192.168.255.2: icmp_seq=2 ttl=64 time=1.01 ms
+64 bytes from 192.168.255.2: icmp_seq=3 ttl=64 time=1.15 ms
+64 bytes from 192.168.255.2: icmp_seq=4 ttl=64 time=0.856 ms
+64 bytes from 192.168.255.2: icmp_seq=5 ttl=64 time=0.886 ms
+64 bytes from 192.168.255.2: icmp_seq=6 ttl=64 time=1.43 ms
+64 bytes from 192.168.255.2: icmp_seq=7 ttl=64 time=1.37 ms
+64 bytes from 192.168.255.2: icmp_seq=8 ttl=64 time=0.850 ms
+64 bytes from 192.168.255.2: icmp_seq=9 ttl=64 time=0.742 ms
+64 bytes from 192.168.255.2: icmp_seq=10 ttl=64 time=7.34 ms
+64 bytes from 192.168.255.2: icmp_seq=11 ttl=64 time=3.85 ms
+64 bytes from 192.168.255.2: icmp_seq=12 ttl=64 time=3.70 ms
+64 bytes from 192.168.255.2: icmp_seq=13 ttl=64 time=5.02 ms
+From 192.168.255.1 icmp_seq=49 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=50 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=51 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=52 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=53 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=54 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=55 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=56 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=57 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=58 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=59 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=60 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=61 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=62 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=63 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=64 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=65 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=66 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=67 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=68 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=69 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=70 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=71 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=72 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=73 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=74 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=75 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=76 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=77 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=78 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=79 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=80 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=81 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=82 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=83 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=84 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=85 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=86 Destination Host Unreachable
+From 192.168.255.1 icmp_seq=87 Destination Host Unreachable
+^C
+--- 192.168.255.2 ping statistics ---
+90 packets transmitted, 13 received, +39 errors, 85.5556% packet loss, time 91047ms
+rtt min/avg/max/mdev = 0.742/2.371/7.338/1.969 ms, pipe 4
+[vagrant@inetRouter ~]$ date
+Mon Nov 23 08:53:27 PM UTC 2026
+[vagrant@inetRouter ~]$
+
+# команда с ВМ централРоутер для остановки интерфейса eth1 была выполнена в 08:51:56
+# и в этот момент пинги перестали проходить на ВМ централРоутер
+[vagrant@centralRouter ~]$ date; sudo ip link set eth1 down
+Mon Nov 23 08:51:56 PM UTC 2026
+[vagrant@centralRouter ~]$
+
+# жалко, что эмуляция полноценно не заработала, и т.к. в задании сказнано:
+# Цель: Научиться настраивать VLAN и LACP;
+# про часть LACP в описании был такой текст:
+#   1. Между centralRouter и inetRouter "пробросить" 2 линка (общая inernal сеть) - проброшено
+#   2. объединить их в бонд                                                       - объединено
+#   3. проверить работу c отключением интерфейсов                                 - выполнил, результат приведён выше.
